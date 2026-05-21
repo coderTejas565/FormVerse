@@ -7,6 +7,7 @@ import { generateOpenApiDocument, createOpenApiExpressMiddleware } from "trpc-to
 import { apiReference } from "@scalar/express-api-reference";
 
 import { serverRouter, createContext } from "@repo/trpc/server";
+import { cookieParser } from "cookie-parser"
 
 import { env } from "./env";
 
@@ -17,13 +18,14 @@ const openApiDocument = generateOpenApiDocument(serverRouter, {
   baseUrl: env.BASE_URL.concat("/api"),
 });
 
-if (env.NODE_ENV !== "prod") {
-  app.use(
-    cors({
-      origin: "*",
-    }),
-  );
-}
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+  })
+)
+
+app.use(cookieParser())
 
 app.use(express.json());
 
