@@ -6,7 +6,6 @@ import { db, eq } from "@repo/database";
 import { usersTable} from "@repo/database/models/user";
 import * as JWT from "jsonwebtoken"
 import { env } from "process";
-import { id } from "zod/v4/locales";
 
 
 class UserService {
@@ -23,7 +22,9 @@ class UserService {
     private async genrateUserToken(payload: GenerateUserTokenPayloadType){
         const { id } = await generateUserTokenPayload.parseAsync(payload)
 
-        const token = JWT.sign({id}, env.JWT_SECRET)
+        const token = JWT.sign({ id },env.JWT_SECRET!
+            
+        )
 
         return { token }
     }
@@ -42,7 +43,7 @@ class UserService {
             id: usersTable.id
         })
 
-        if (!userInserResult || userInserResult.length === 0 || userInserResult[0]?.id) {
+        if (!userInserResult || userInserResult.length === 0 || !userInserResult[0]?.id) {
             throw new Error("something went wrong while creating user");
             
         }
