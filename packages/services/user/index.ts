@@ -1,3 +1,4 @@
+import { createHmac, randomBytes } from "node:crypto";
 import { type CreateUserWithEmailAndPasswordInputType, createUserWithEmailAndPasswordInput, type GenerateUserTokenPayloadType, generateUserTokenPayload} from "./model";
 
 import { db, eq } from "@repo/database";
@@ -34,8 +35,8 @@ class UserService {
         if (existingUserWithEmail) {
             throw new Error(`user with email ${email} already exists`);
         }
-        const salt = randomBytes(16).tostring('hex')
-        const hash = createHmac('sha256', salt).update(password).digest('hex')
+        const salt = randomBytes(16).toString('hex')
+        const hash = createHmac('sha256',salt).update(password).digest('hex')
 
         const userInserResult = await db.insert(usersTable).values({email, fullName, password: hash, salt}).returning({
             id: usersTable.id

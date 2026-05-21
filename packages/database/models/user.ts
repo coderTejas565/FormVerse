@@ -8,14 +8,11 @@ export const usersTable = pgTable("users", {
   email: varchar("email",{ length:255 })
     .notNull()
     .unique(),
-
-  passwordHash: varchar("password_hash",{ length:255 })
-    .notNull(),
-
-  refreshTokenHash: text("refresh_token_hash"),
-
   emailVerified: boolean("email_verified")
     .default(false),
+
+  salt: text('salt'),
+  password: text('password'),  
 
   profileImageUrl: text("profile_image_url"),
 
