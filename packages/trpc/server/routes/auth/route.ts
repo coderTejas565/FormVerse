@@ -4,6 +4,7 @@ import { publicProcedure, router } from "../../trpc";
 import { generatePath } from "../../utils/path-generator"
 import { userService } from "@repo/services/user";
 import { setAuthenticationCookie } from "../../utils/cookie";
+import { protectedProcedure } from "../../trpc";
 
 const TAGS = ["Authentication"];
 const getPath = generatePath("/authentication");
@@ -28,4 +29,17 @@ export const authRouter = router({
       id
     }
   }),
+  me:
+protectedProcedure
+.query(
+ async ({ctx})=>{
+
+   return {
+
+      id:
+      ctx.user?.id
+
+   }
+
+ })
 });

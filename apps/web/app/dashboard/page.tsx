@@ -1,31 +1,38 @@
-export default function DashboardPage() {
-  return (
-    <main className="p-8">
+'use client'
 
-      <h1 className="text-3xl font-bold">
-        Dashboard
-      </h1>
+import { useRouter } from "next/navigation";
 
-      <p>
-        Welcome back
-      </p>
+import { trpc } from "~/trpc/client";
 
-      <div className="mt-8">
+import { useEffect } from "react";
 
-        <div>
-          Total Forms: 0
-        </div>
 
-        <div>
-          Total Responses: 0
-        </div>
+export default function DashboardPage(){
 
-      </div>
+ const router = useRouter();
 
-      <button>
-        Create Form
-      </button>
 
-    </main>
-  )
+ const me = trpc.auth.me.useQuery();
+ useEffect(()=>{
+    if(me.error){
+        router.push("/sign-in")
+    }
+},[me.error,router])
+
+if(me.isLoading){
+
+ return(
+ <p>
+   Loading...
+  </p>
+ )
+
+ }
+ 
+ return(
+ <div>
+    <h1>Dashboard</h1>
+    <p>Logged in as:{me.data?.id}</p>
+    </div>
+    )
 }
