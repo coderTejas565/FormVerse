@@ -4,7 +4,9 @@ import { db, eq } from "@repo/database"
 import { formsTable } from "@repo/database/models/forms"
 import { formFieldsTable } from "@repo/database/models/formFields"
 import { createFormInput, createFormOutput, addFormFieldInput, addFormFieldOutput, getFormInput, getFormOutput } from "./model"
-import { z } from "zod"
+import { responsesTable } from "@repo/database/models/responses"
+import { answersTable } from "@repo/database/models/answers"
+import { submitFormInput, submitFormOutput } from "./model"
 
 export const formRouter = router({
 
@@ -97,5 +99,32 @@ export const formRouter = router({
       .where(eq(formsTable.creatorId, ctx.user.id))
 
     return forms
-  })
+  }),
+  
+  submitForm: publicProcedure
+  .input(submitFormInput)
+  .output(submitFormOutput)
+  .mutation(
+    async({input})=>{
+        const response = await db
+        .insert(responsesTable)
+        .values({
+            formId: input.formId
+        })
+        .returning({
+            id: responsesTable.id
+        })
+        const responseId = response[0].id 
+        await db.insert(answersTable).values(input.answers.map(answer=>({responseId,
+            fieldId: answer.fieldId,
+            value: answer.value
+        })
+    )
+)
+
+return{
+    responseId
+}
+
+})
 })

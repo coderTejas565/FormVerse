@@ -43,3 +43,22 @@ export const getFormOutput = z.object({
   form: z.any(),
   fields: z.array(z.any())
 })
+
+export const submitFormInput = z.object({
+
+ formId: z.string(),
+
+ answers: z.array(
+    z.object({
+
+   fieldId: z.string(),
+
+   value: z.string()
+})
+)
+})
+
+
+export const submitFormOutput = z.object({
+    responseId: z.string()
+})
