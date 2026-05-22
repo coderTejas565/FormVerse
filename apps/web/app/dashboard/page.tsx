@@ -1,38 +1,48 @@
 'use client'
 
-import { useRouter } from "next/navigation";
+import { trpc } from "~/trpc/client"
+import Link from "next/link"
 
-import { trpc } from "~/trpc/client";
+export default function DashboardPage() {
 
-import { useEffect } from "react";
+ const { data, isLoading } =
+ trpc.form.getMyForms.useQuery()
 
-
-export default function DashboardPage(){
-
- const router = useRouter();
-
-
- const me = trpc.auth.me.useQuery();
- useEffect(()=>{
-    if(me.error){
-        router.push("/sign-in")
-    }
-},[me.error,router])
-
-if(me.isLoading){
-
- return(
- <p>
-   Loading...
-  </p>
- )
-
+ if (isLoading) {
+  return <p>Loading...</p>
  }
- 
- return(
- <div>
-    <h1>Dashboard</h1>
-    <p>Logged in as:{me.data?.id}</p>
+
+ return (
+  <div className="p-8">
+
+    <h1 className="text-2xl font-bold">
+      My Forms
+    </h1>
+
+    <Link
+      href="/create-form"
+      className="text-blue-500"
+    >
+      + Create Form
+    </Link>
+
+    <div className="mt-6 space-y-3">
+
+      {data?.map((form) => (
+        <div
+          key={form.id}
+          className="border p-4 rounded"
+        >
+
+          <h2>{form.title}</h2>
+
+          <p>{form.visibility}</p>
+
+        </div>
+      ))}
+
     </div>
-    )
+
+  </div>
+ )
 }

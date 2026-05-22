@@ -1,7 +1,7 @@
 import { router } from "../../trpc"
 import { protectedProcedure } from "../../trpc"
 import { createFormInput, createFormOutput } from "./model"
-import { db } from "@repo/database"
+import { db, eq } from "@repo/database"
 import { formsTable } from "@repo/database/models/forms"
 
 export const formRouter = router({
@@ -27,6 +27,14 @@ export const formRouter = router({
       return {
         id: result[0].id
       }
-    })
+    }),
 
+    getMyForms: protectedProcedure.query(async ({ ctx }) => {
+        const forms = await db
+        .select()
+        .from(formsTable)
+        .where(eq(formsTable.creatorId, ctx.user.id))
+
+  return forms
+})
 })
