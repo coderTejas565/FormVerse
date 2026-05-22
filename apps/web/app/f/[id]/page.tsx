@@ -1,47 +1,59 @@
 'use client'
 
+import { useState } from "react"
+
 import { useParams } from "next/navigation"
+
 import { trpc } from "~/trpc/client"
+
 import { FormPreview } from "~/components/FormPreview"
 
-export default function PublicFormPage() {
+export default function PublicFormPage(){
 
-  const { id } = useParams<{ id: string }>()
+const { id } = useParams<{ id:string }>()
 
-  const { data, isLoading } =
-    trpc.form.getForm.useQuery({
-      formId: id
-    })
 
-  if (isLoading) return <p>Loading...</p>
+const { data } = trpc.form.getForm.useQuery({
+    formId: id
+})
 
-  if (!data?.form) {
-    return <p>Form not found</p>
-  }
 
-  return (
-    <div className="p-8 max-w-xl mx-auto">
+const submit = trpc.form.submitForm.useMutation({
+    onSuccess(){ window.location.href="/thanks" }
+})
 
-      <h1 className="text-2xl font-bold">
-        {data.form.title}
-      </h1>
 
-      <p className="text-gray-500">
-        {data.form.description}
-      </p>
+const [values,setValues] = useState<Record<string,string>>({})
 
-      <div className="mt-6">
+if(!data){
+    return( 
+    <p>Loading...</p>
+)
 
-        <FormPreview
-          fields={data.fields}
-        />
-
-      </div>
-
-      <button className="mt-6">
-        Submit (next step)
-      </button>
-
-    </div>
-  )
 }
+
+
+function handleSubmit(){
+
+ submit.mutate({
+    formId:id,
+    answers: Object.entries(values).map(([fieldId,value])=>({
+        fieldId,value
+    })
+)
+
+})
+
+}
+return(
+
+<div className="max-w-xl mx-auto p-8">
+    <h1>{data.form.title}</h1>
+    <p>{data.form.description}</p>
+    <FormPreview fields={data.fields} values={values} setValues={setValues}/>
+    <button onClick={handleSubmit}>
+        Submit
+        </button>
+        </div>
+        )
+    }
