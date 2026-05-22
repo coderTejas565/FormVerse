@@ -29,6 +29,13 @@
       "when": 1779452360969,
       "tag": "0003_medical_scarecrow",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1779452577586,
+      "tag": "0004_mean_stature",
+      "breakpoints": true
     }
   ]
 }
