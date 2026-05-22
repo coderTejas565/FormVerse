@@ -47,19 +47,21 @@ export function FormPreview({ fields }: any) {
         }
 
         if (field.type === "SELECT") {
-          return (
-            <select
-              key={field.id}
-              className="border p-2"
-            >
-              <option>Select option</option>
-            </select>
-          )
-        }
-
-        return null
-      })}
-
-    </div>
-  )
-}
+            const options = field.options? JSON.parse(field.options) : []
+            
+            return (
+            <select key={field.id} className="border p-2">
+                <option value="">{field.label}</option>
+                {options.map((opt: string, idx: number) => (
+                    <option key={idx} value={opt}>
+                        {opt}
+                        </option>
+                    ))}
+                    </select>
+                    )
+                }
+                return null
+                })}
+                </div>
+                )
+            }
