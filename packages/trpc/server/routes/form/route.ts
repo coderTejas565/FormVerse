@@ -1,8 +1,10 @@
 import { router } from "../../trpc"
-import { protectedProcedure } from "../../trpc"
-import { createFormInput, createFormOutput } from "./model"
+import { protectedProcedure, publicProcedure } from "../../trpc"
 import { db, eq } from "@repo/database"
 import { formsTable } from "@repo/database/models/forms"
+import { formFieldsTable } from "@repo/database/models/formFields"
+import { createFormInput, createFormOutput, addFormFieldInput, addFormFieldOutput, getFormInput, getFormOutput } from "./model"
+import { z } from "zod"
 
 export const formRouter = router({
 
@@ -29,12 +31,71 @@ export const formRouter = router({
       }
     }),
 
-    getMyForms: protectedProcedure.query(async ({ ctx }) => {
-        const forms = await db
+  addField: protectedProcedure
+    .input(addFormFieldInput)
+    .output(addFormFieldOutput)
+    .mutation(async ({ ctx, input }) => {
+
+      const form = await db
         .select()
         .from(formsTable)
-        .where(eq(formsTable.creatorId, ctx.user.id))
+        .where(eq(formsTable.id, input.formId))
+        .limit(1)
 
-  return forms
-})
+      if (!form.length || form[0].creatorId !== ctx.user.id) {
+        throw new Error("Unauthorized")
+      }
+
+      const result = await db
+        .insert(formFieldsTable)
+        .values({
+          formId: input.formId,
+          label: input.label,
+          type: input.type,
+          required: input.required ?? false,
+          options: input.options
+            ? JSON.stringify(input.options)
+            : null,
+          order: input.order ?? 0
+        })
+        .returning({
+          id: formFieldsTable.id
+        })
+
+      return {
+        id: result[0].id
+      }
+    }),
+
+  getForm: publicProcedure
+    .input(getFormInput)
+    .output(getFormOutput)
+    .query(async ({ input }) => {
+
+      const form = await db
+        .select()
+        .from(formsTable)
+        .where(eq(formsTable.id, input.formId))
+        .limit(1)
+
+      const fields = await db
+        .select()
+        .from(formFieldsTable)
+        .where(eq(formFieldsTable.formId, input.formId))
+
+      return {
+        form: form[0] ?? null,
+        fields
+      }
+    }),
+
+  getMyForms: protectedProcedure.query(async ({ ctx }) => {
+
+    const forms = await db
+      .select()
+      .from(formsTable)
+      .where(eq(formsTable.creatorId, ctx.user.id))
+
+    return forms
+  })
 })

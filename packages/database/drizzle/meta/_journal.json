@@ -15,6 +15,13 @@
       "when": 1779435433404,
       "tag": "0001_lumpy_major_mapleleaf",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779439255279,
+      "tag": "0002_equal_talos",
+      "breakpoints": true
     }
   ]
 }
