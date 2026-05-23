@@ -62,3 +62,23 @@ export const submitFormInput = z.object({
 export const submitFormOutput = z.object({
     responseId: z.string()
 })
+
+export const analyticsInput = z.object({})
+
+export const analyticsOutput = z.object({
+
+  totalForms: z.number(),
+
+  totalResponses: z.number(),
+
+  recentForms:z.array(
+    z.object({
+
+      id: z.string(),
+
+      title:z.string()
+
+    })
+  )
+
+})

@@ -3,10 +3,11 @@ import { protectedProcedure, publicProcedure } from "../../trpc"
 import { db, eq } from "@repo/database"
 import { formsTable } from "@repo/database/models/forms"
 import { formFieldsTable } from "@repo/database/models/formFields"
-import { createFormInput, createFormOutput, addFormFieldInput, addFormFieldOutput, getFormInput, getFormOutput } from "./model"
+import { createFormInput, createFormOutput, addFormFieldInput, addFormFieldOutput, getFormInput, getFormOutput, analyticsInput, analyticsOutput } from "./model"
 import { responsesTable } from "@repo/database/models/responses"
 import { answersTable } from "@repo/database/models/answers"
 import { submitFormInput, submitFormOutput } from "./model"
+import { desc, count } from "@repo/database"
 
 export const formRouter = router({
 
@@ -121,10 +122,49 @@ export const formRouter = router({
         })
     )
 )
+    return{
+        responseId
+    }
+  }),
 
-return{
-    responseId
-}
+  analytics: protectedProcedure
+  .output(analyticsOutput)
+  .query(async ({ ctx }) => {
+    const forms = await db.select({
+        id: formsTable.id,
+        title: formsTable.title
+    })
+    .from(formsTable)
+    .where(eq(
+        formsTable.creatorId,
+        ctx.user.id
+    )
+)
+
+
+ const totalResponses = await db.select({
+   count: count()
+})
+.from(responsesTable)
+
+ const recentForms = await db.select({
+   id: formsTable.id,
+
+   title: formsTable.title
+
+})
+ .from(formsTable)
+ .where(eq(formsTable.creatorId,ctx.user.id))
+ .orderBy(desc(formsTable.createdAt))
+ .limit(5)
+
+ return {
+
+   totalForms: forms.length,
+
+   totalResponses: Number(totalResponses[0]?.count ?? 0),
+   recentForms
+ }
 
 })
 })
