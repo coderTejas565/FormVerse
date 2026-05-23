@@ -174,16 +174,116 @@ export const formRouter = router({
  .where(eq(formsTable.creatorId,ctx.user.id))
  .orderBy(desc(responsesTable.createdAt))
  .limit(10)
+const rawResponses =
+      await db
+        .select({
 
- return {
+          submittedAt:
+            responsesTable.createdAt
 
-   totalForms: forms.length,
+        })
+        .from(
+          responsesTable
+        )
+        .innerJoin(
 
-   totalResponses: Number(totalResponses[0]?.count ?? 0),
+          formsTable,
 
-   recentForms,
-   recentResponses   
- }
+          eq(
+            responsesTable.formId,
+            formsTable.id
+          )
 
-})
+        )
+        .where(
+
+          eq(
+            formsTable.creatorId,
+            ctx.user.id
+          )
+
+        )
+
+
+    const grouped =
+      rawResponses.reduce(
+
+        (acc, response) => {
+
+          if (
+            !response.submittedAt
+          ) return acc
+
+
+          const date =
+            new Date(
+              response.submittedAt
+            )
+
+              .toISOString()
+              .split("T")[0]
+
+
+          acc[date] =
+            (
+              acc[date]
+              ??
+              0
+            )
+            + 1
+
+
+          return acc
+
+        },
+
+        {} as Record<
+          string,
+          number
+        >
+
+      )
+
+
+    const responsesOverTime =
+      Object
+        .entries(
+          grouped
+        )
+
+        .map(
+
+          ([date, count]) => ({
+
+            date,
+
+            count
+
+          })
+
+        )
+
+
+    return {
+
+      totalForms:
+        forms.length,
+
+      totalResponses:
+        Number(
+          totalResponses[0]
+            ?.count
+          ??
+          0
+        ),
+
+      recentForms,
+
+      recentResponses,
+
+      responsesOverTime
+
+    }
+
+  }),
 })

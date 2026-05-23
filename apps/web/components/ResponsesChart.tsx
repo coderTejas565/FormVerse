@@ -1,14 +1,24 @@
 'use client'
 
-import { LineChart, Line, XAxis, YAxis } from "recharts"
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts"
 
+export default function ResponsesChart({ data }:{data:any[]}){
 
-export default function({ data }:any){
-    return(
-    <LineChart width={500} height={300} data={data} >
-        <XAxis dataKey="date"/>
-        <YAxis/>
-        <Line dataKey="count"/>
-        </LineChart>
-        )
-    }
+return(
+<LineChart width={600} height={300} data={data}>
+
+<CartesianGrid />
+
+<XAxis dataKey="date"/>
+
+<YAxis />
+
+<Tooltip />
+
+<Line type="monotone" dataKey="count"/>
+
+</LineChart>
+
+)
+
+}

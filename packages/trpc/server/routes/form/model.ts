@@ -79,6 +79,7 @@ export const analyticsOutput = z.object({
     })
 ),
 
+
 recentResponses: z.array(
     z.object({
         responseId: z.string(),
@@ -89,6 +90,21 @@ recentResponses: z.array(
     
     })
 
-    )
+    ),
+
+responsesOverTime:
+ z.array(
+
+  z.object({
+
+   date:
+   z.string(),
+
+   count:
+   z.number()
+
+  })
+
+ )    
 
 })
