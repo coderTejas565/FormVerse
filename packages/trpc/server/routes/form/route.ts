@@ -158,12 +158,30 @@ export const formRouter = router({
  .orderBy(desc(formsTable.createdAt))
  .limit(5)
 
+
+ const recentResponses = await db.select({
+
+ responseId: responsesTable.id,
+
+ submittedAt: responsesTable.createdAt,
+
+ formTitle: formsTable.title
+
+})
+ .from(responsesTable)
+ .innerJoin(formsTable,eq(responsesTable.formId,formsTable.id))
+ .where(eq(formsTable.creatorId,ctx.user.id))
+ .orderBy(desc(responsesTable.createdAt))
+ .limit(10)
+
  return {
 
    totalForms: forms.length,
 
    totalResponses: Number(totalResponses[0]?.count ?? 0),
-   recentForms
+
+   recentForms,
+   recentResponses   
  }
 
 })

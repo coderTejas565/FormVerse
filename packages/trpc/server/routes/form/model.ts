@@ -71,14 +71,24 @@ export const analyticsOutput = z.object({
 
   totalResponses: z.number(),
 
-  recentForms:z.array(
+  recentForms: z.array(
     z.object({
+        id: z.string(),
 
-      id: z.string(),
-
-      title:z.string()
-
+        title: z.string()
     })
-  )
+),
+
+recentResponses: z.array(
+    z.object({
+        responseId: z.string(),
+
+        submittedAt: z.coerce.date(),
+
+        formTitle: z.string()
+    
+    })
+
+    )
 
 })
