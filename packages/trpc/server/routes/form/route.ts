@@ -146,7 +146,8 @@ export const formRouter = router({
    count: count()
 })
 .from(responsesTable)
-
+.innerJoin(formsTable,eq(responsesTable.formId,formsTable.id))
+.where(eq(formsTable.creatorId,ctx.user.id))
  const recentForms = await db.select({
    id: formsTable.id,
 
