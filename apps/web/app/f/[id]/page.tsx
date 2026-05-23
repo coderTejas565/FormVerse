@@ -25,11 +25,13 @@ const submit = trpc.form.submitForm.useMutation({
 
 const [values,setValues] = useState<Record<string,string>>({})
 
-if(!data){
-    return( 
-    <p>Loading...</p>
-)
-
+if (!data || !data.form) {
+  return (
+    <div className="p-8">
+      <h1>Form not found</h1>
+      <p>This form may be deleted or unavailable.</p>
+    </div>
+  )
 }
 
 
