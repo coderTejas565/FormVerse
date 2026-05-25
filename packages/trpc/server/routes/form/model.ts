@@ -108,3 +108,40 @@ responsesOverTime:
  )    
 
 })
+
+export const publishFormInput = z.object({
+ formId: z.string()
+})
+
+
+export const publishFormOutput = z.object({
+ success: z.boolean()
+})
+
+export const exploreFormsOutput =
+z.array(
+
+z.object({
+
+ id:
+ z.string(),
+
+ title:
+ z.string(),
+
+ description:
+ z.string().nullable(),
+
+ createdAt:
+ z.date().nullable()
+
+})
+
+)
+
+export const getMyFormInput =
+getFormInput
+
+
+export const getMyFormOutput =
+getFormOutput
