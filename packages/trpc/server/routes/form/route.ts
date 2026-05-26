@@ -23,6 +23,7 @@ import { responsesTable } from "@repo/database/models/responses";
 import { answersTable } from "@repo/database/models/answers";
 import { submitFormInput, submitFormOutput } from "./model";
 import { desc, count, and } from "@repo/database";
+import { checkRateLimit } from "../../utils/rate-limit";
 
 export const formRouter = router({
   createForm: protectedProcedure
@@ -126,7 +127,17 @@ export const formRouter = router({
   submitForm: publicProcedure
     .input(submitFormInput)
     .output(submitFormOutput)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
+      const allowed = checkRateLimit(ctx.ip);
+
+      if (!allowed) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+
+          message: "Too many submissions. Try again later.",
+        });
+      }
+
       const form = await db
         .select()
         .from(formsTable)
@@ -136,6 +147,7 @@ export const formRouter = router({
       if (!form.length) {
         throw new TRPCError({
           code: "NOT_FOUND",
+
           message: "Form not found",
         });
       }
@@ -143,6 +155,7 @@ export const formRouter = router({
       if (!form[0].isPublished) {
         throw new TRPCError({
           code: "FORBIDDEN",
+
           message: "Form unavailable",
         });
       }
@@ -152,19 +165,26 @@ export const formRouter = router({
         .values({
           formId: input.formId,
         })
+
         .returning({
           id: responsesTable.id,
         });
+
       const responseId = response[0].id;
+
       await db
         .insert(answersTable)
+
         .values(
           input.answers.map((answer) => ({
             responseId,
+
             fieldId: answer.fieldId,
+
             value: answer.value,
           })),
         );
+
       return {
         responseId,
       };

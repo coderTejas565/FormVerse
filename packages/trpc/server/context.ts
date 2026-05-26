@@ -9,6 +9,8 @@ export interface TRPCContext {
 
   clearCookie: ReturnType<typeof clearCookieFactory>;
 
+  ip: string;
+
   user?: {
     id: string;
   };
@@ -16,13 +18,18 @@ export interface TRPCContext {
 
 export async function createContext({
   req,
+
   res,
 }: CreateExpressContextOptions): Promise<TRPCContext> {
+  const ip = req.ip ?? req.socket.remoteAddress ?? "unknown";
+
   return {
     createCookie: createCookieFactory(res),
 
     getCookie: getCookieFactory(req),
 
     clearCookie: clearCookieFactory(res),
+
+    ip,
   };
 }
