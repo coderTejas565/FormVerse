@@ -6,4 +6,4 @@ export * from "./models/formFields";
 
 export * from "./models/responses";
 
-export * from "./models/answers"
+export * from "./models/answers";

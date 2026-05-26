@@ -1,14 +1,14 @@
-import { z } from "zod"
+import { z } from "zod";
 
 export const createFormInput = z.object({
   title: z.string().min(3),
   description: z.string().optional(),
-  visibility: z.enum(["PUBLIC", "UNLISTED"])
-})
+  visibility: z.enum(["PUBLIC", "UNLISTED"]),
+});
 
 export const createFormOutput = z.object({
-  id: z.string()
-})
+  id: z.string(),
+});
 
 export const formFieldTypeEnum = z.enum([
   "TEXT",
@@ -16,8 +16,8 @@ export const formFieldTypeEnum = z.enum([
   "NUMBER",
   "TEXTAREA",
   "SELECT",
-  "MULTISELECT"
-])
+  "MULTISELECT",
+]);
 
 export const addFormFieldInput = z.object({
   formId: z.string(),
@@ -28,120 +28,92 @@ export const addFormFieldInput = z.object({
   // store as JSON string in DB but use array in API
   options: z.array(z.string()).optional(),
 
-  order: z.number().optional()
-})
+  order: z.number().optional(),
+});
 
 export const addFormFieldOutput = z.object({
-  id: z.string()
-})
+  id: z.string(),
+});
 
 export const getFormInput = z.object({
-  formId: z.string()
-})
+  formId: z.string(),
+});
 
 export const getFormOutput = z.object({
   form: z.any(),
-  fields: z.array(z.any())
-})
+  fields: z.array(z.any()),
+});
 
 export const submitFormInput = z.object({
+  formId: z.string(),
 
- formId: z.string(),
-
- answers: z.array(
+  answers: z.array(
     z.object({
+      fieldId: z.string(),
 
-   fieldId: z.string(),
-
-   value: z.string()
-})
-)
-})
-
+      value: z.string(),
+    }),
+  ),
+});
 
 export const submitFormOutput = z.object({
-    responseId: z.string()
-})
+  responseId: z.string(),
+});
 
-export const analyticsInput = z.object({})
+export const analyticsInput = z.object({});
 
 export const analyticsOutput = z.object({
-
   totalForms: z.number(),
 
   totalResponses: z.number(),
 
   recentForms: z.array(
     z.object({
-        id: z.string(),
+      id: z.string(),
 
-        title: z.string()
-    })
-),
+      title: z.string(),
+    }),
+  ),
 
-
-recentResponses: z.array(
+  recentResponses: z.array(
     z.object({
-        responseId: z.string(),
+      responseId: z.string(),
 
-        submittedAt: z.coerce.date(),
+      submittedAt: z.coerce.date(),
 
-        formTitle: z.string()
-    
-    })
+      formTitle: z.string(),
+    }),
+  ),
 
-    ),
+  responsesOverTime: z.array(
+    z.object({
+      date: z.string(),
 
-responsesOverTime:
- z.array(
-
-  z.object({
-
-   date:
-   z.string(),
-
-   count:
-   z.number()
-
-  })
-
- )    
-
-})
+      count: z.number(),
+    }),
+  ),
+});
 
 export const publishFormInput = z.object({
- formId: z.string()
-})
-
+  formId: z.string(),
+});
 
 export const publishFormOutput = z.object({
- success: z.boolean()
-})
+  success: z.boolean(),
+});
 
-export const exploreFormsOutput =
-z.array(
+export const exploreFormsOutput = z.array(
+  z.object({
+    id: z.string(),
 
-z.object({
+    title: z.string(),
 
- id:
- z.string(),
+    description: z.string().nullable(),
 
- title:
- z.string(),
+    createdAt: z.date().nullable(),
+  }),
+);
 
- description:
- z.string().nullable(),
+export const getMyFormInput = getFormInput;
 
- createdAt:
- z.date().nullable()
-
-})
-
-)
-
-export const getMyFormInput =
-getFormInput
-
-
-export const getMyFormOutput =
-getFormOutput
+export const getMyFormOutput = getFormOutput;

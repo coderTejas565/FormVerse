@@ -12,19 +12,19 @@ import { env } from "./env";
 
 export const app = express();
 const openApiDocument = generateOpenApiDocument(serverRouter, {
-  title:"FormVerse API",
+  title: "FormVerse API",
   version: "1.0.0",
   baseUrl: env.BASE_URL.concat("/api"),
 });
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-  })
-)
+    origin: "http://localhost:3000",
+    credentials: true,
+  }),
+);
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 app.use(express.json());
 
@@ -42,19 +42,13 @@ app.get("/openapi.json", (req, res) => {
 });
 
 logger.debug(`docs: ${env.BASE_URL}/docs`);
-app.use(
-  "/docs",
-  async (req, res) => {
-    const { apiReference } =
-      await import(
-        "@scalar/express-api-reference"
-      );
+app.use("/docs", async (req, res) => {
+  const { apiReference } = await import("@scalar/express-api-reference");
 
-    return apiReference({
-      url: "/openapi.json",
-    })(req, res);
-  }
-);
+  return apiReference({
+    url: "/openapi.json",
+  })(req, res);
+});
 
 app.use(
   "/api",

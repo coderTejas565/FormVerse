@@ -1,100 +1,55 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { trpc } from '~/trpc/client'
+import { useState } from "react";
+import { trpc } from "~/trpc/client";
 
-export default function SignupPage(){
+export default function SignupPage() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
- const [fullName,setFullName]=useState('')
- const [email,setEmail]=useState('')
- const [password,setPassword]=useState('')
+  const signup = trpc.auth.createUserWithEmailAndPassword.useMutation({
+    onSuccess(data) {
+      console.log("User created:", data);
 
- const signup =
- trpc.auth.createUserWithEmailAndPassword
- .useMutation({
+      window.location.href = "/dashboard";
+    },
 
-   onSuccess(data){
-      console.log(
-         "User created:",
-         data
-      )
+    onError(error) {
+      alert(error.message);
+    },
+  });
 
-      window.location.href =
-      "/dashboard"
-   },
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
-   onError(error){
-      alert(error.message)
-   }
-
- })
-
-
- function handleSubmit(
-   e: React.FormEvent
- ){
-
-   e.preventDefault()
-
-   signup.mutate({
+    signup.mutate({
       fullName,
       email,
-      password
-   })
+      password,
+    });
+  }
 
- }
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-10">
+      <input
+        placeholder="Full Name"
+        value={fullName}
+        onChange={(e) => setFullName(e.target.value)}
+      />
 
+      <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
- return(
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-<form
-onSubmit={handleSubmit}
-className="flex flex-col gap-4 p-10"
->
-
-<input
-placeholder="Full Name"
-value={fullName}
-onChange={(e)=>
-setFullName(e.target.value)
-}
-/>
-
-
-<input
-placeholder="Email"
-value={email}
-onChange={(e)=>
-setEmail(e.target.value)
-}
-/>
-
-
-<input
-type="password"
-placeholder="Password"
-value={password}
-onChange={(e)=>
-setPassword(e.target.value)
-}
-/>
-
-
-<button
-type="submit"
-disabled={signup.isPending}
->
-
-{
-signup.isPending
-? "Creating..."
-: "Signup"
-}
-
-</button>
-
-</form>
-
- )
-
+      <button type="submit" disabled={signup.isPending}>
+        {signup.isPending ? "Creating..." : "Signup"}
+      </button>
+    </form>
+  );
 }

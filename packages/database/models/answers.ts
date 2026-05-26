@@ -1,22 +1,19 @@
-import { pgTable, uuid, text } from "drizzle-orm/pg-core"
+import { pgTable, uuid, text } from "drizzle-orm/pg-core";
 
-import { responsesTable } from "./responses"
+import { responsesTable } from "./responses";
 
-import { formFieldsTable } from "./formFields"
+import { formFieldsTable } from "./formFields";
 
+export const answersTable = pgTable("answers", {
+  id: uuid("id").primaryKey().defaultRandom(),
 
-export const answersTable = pgTable("answers",{
+  responseId: uuid("response_id")
+    .notNull()
+    .references(() => responsesTable.id),
 
- id: uuid("id").primaryKey().defaultRandom(),
+  fieldId: uuid("field_id")
+    .notNull()
+    .references(() => formFieldsTable.id),
 
- responseId: uuid("response_id").notNull().references(
-()=>responsesTable.id
- ),
-
- fieldId: uuid("field_id").notNull().references(
-    ()=>formFieldsTable.id
- ),
-
- value: text("value").notNull()
-
-})
+  value: text("value").notNull(),
+});

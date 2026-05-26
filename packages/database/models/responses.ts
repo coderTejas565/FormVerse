@@ -1,14 +1,13 @@
-import { pgTable,uuid,timestamp } from "drizzle-orm/pg-core"
+import { pgTable, uuid, timestamp } from "drizzle-orm/pg-core";
 
-import { formsTable } from "./forms"
+import { formsTable } from "./forms";
 
+export const responsesTable = pgTable("responses", {
+  id: uuid("id").primaryKey().defaultRandom(),
 
-export const responsesTable = pgTable("responses",{
+  formId: uuid("form_id")
+    .notNull()
+    .references(() => formsTable.id),
 
- id: uuid("id").primaryKey().defaultRandom(),
-
- formId: uuid("form_id").notNull().references(()=>formsTable.id),
-
- createdAt: timestamp("created_at",{withTimezone:true}).defaultNow()
-
-})
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
