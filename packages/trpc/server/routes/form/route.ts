@@ -18,6 +18,7 @@ import {
   exploreFormsOutput,
   getMyFormInput,
   getMyFormOutput,
+  getMyFormsOutput,
 } from "./model";
 import { responsesTable } from "@repo/database/models/responses";
 import { answersTable } from "@repo/database/models/answers";
@@ -27,6 +28,13 @@ import { checkRateLimit } from "../../utils/rate-limit";
 
 export const formRouter = router({
   createForm: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: "/forms/create",
+        tags: ["Forms"],
+      },
+    })
     .input(createFormInput)
     .output(createFormOutput)
     .mutation(async ({ ctx, input }) => {
@@ -49,6 +57,13 @@ export const formRouter = router({
     }),
 
   addField: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: "/forms/addField",
+        tags: ["Forms"],
+      },
+    })
     .input(addFormFieldInput)
     .output(addFormFieldOutput)
     .mutation(async ({ ctx, input }) => {
@@ -82,6 +97,15 @@ export const formRouter = router({
     }),
 
   getForm: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+
+        path: "/forms/{formId}",
+
+        tags: ["Public Forms"],
+      },
+    })
     .input(getFormInput)
     .output(getFormOutput)
     .query(async ({ input }) => {
@@ -118,13 +142,34 @@ export const formRouter = router({
       };
     }),
 
-  getMyForms: protectedProcedure.query(async ({ ctx }) => {
-    const forms = await db.select().from(formsTable).where(eq(formsTable.creatorId, ctx.user.id));
+  getMyForms: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
 
-    return forms;
-  }),
+        path: "/forms/my",
+
+        tags: ["Forms"],
+      },
+    })
+    .output(getMyFormsOutput)
+    .query(async ({ ctx }) => {
+      const forms = await db.select().from(formsTable).where(eq(formsTable.creatorId, ctx.user.id));
+
+      return forms;
+    }),
 
   submitForm: publicProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+
+        path: "/forms/submit",
+
+        tags: ["Responses"],
+      },
+    })
+
     .input(submitFormInput)
     .output(submitFormOutput)
     .mutation(async ({ input, ctx }) => {
@@ -190,93 +235,113 @@ export const formRouter = router({
       };
     }),
 
-  analytics: protectedProcedure.output(analyticsOutput).query(async ({ ctx }) => {
-    const forms = await db
-      .select({
-        id: formsTable.id,
-        title: formsTable.title,
-      })
-      .from(formsTable)
-      .where(eq(formsTable.creatorId, ctx.user.id));
+  analytics: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
 
-    const totalResponses = await db
-      .select({
-        count: count(),
-      })
-      .from(responsesTable)
-      .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
-      .where(eq(formsTable.creatorId, ctx.user.id));
-    const recentForms = await db
-      .select({
-        id: formsTable.id,
+        path: "/analytics",
 
-        title: formsTable.title,
-      })
-      .from(formsTable)
-      .where(eq(formsTable.creatorId, ctx.user.id))
-      .orderBy(desc(formsTable.createdAt))
-      .limit(5);
-
-    const recentResponses = await db
-      .select({
-        responseId: responsesTable.id,
-
-        submittedAt: responsesTable.createdAt,
-
-        formTitle: formsTable.title,
-      })
-      .from(responsesTable)
-      .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
-      .where(eq(formsTable.creatorId, ctx.user.id))
-      .orderBy(desc(responsesTable.createdAt))
-      .limit(10);
-    const rawResponses = await db
-      .select({
-        submittedAt: responsesTable.createdAt,
-      })
-      .from(responsesTable)
-      .innerJoin(
-        formsTable,
-
-        eq(responsesTable.formId, formsTable.id),
-      )
-      .where(eq(formsTable.creatorId, ctx.user.id));
-
-    const grouped = rawResponses.reduce(
-      (acc, response) => {
-        if (!response.submittedAt) return acc;
-        const date = new Date(response.submittedAt).toISOString().split("T")[0];
-
-        acc[date] = (acc[date] ?? 0) + 1;
-
-        return acc;
+        tags: ["Analytics"],
       },
+    })
+    .output(analyticsOutput)
+    .query(async ({ ctx }) => {
+      const forms = await db
+        .select({
+          id: formsTable.id,
+          title: formsTable.title,
+        })
+        .from(formsTable)
+        .where(eq(formsTable.creatorId, ctx.user.id));
 
-      {} as Record<string, number>,
-    );
+      const totalResponses = await db
+        .select({
+          count: count(),
+        })
+        .from(responsesTable)
+        .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
+        .where(eq(formsTable.creatorId, ctx.user.id));
+      const recentForms = await db
+        .select({
+          id: formsTable.id,
 
-    const responsesOverTime = Object.entries(grouped)
+          title: formsTable.title,
+        })
+        .from(formsTable)
+        .where(eq(formsTable.creatorId, ctx.user.id))
+        .orderBy(desc(formsTable.createdAt))
+        .limit(5);
 
-      .map(([date, count]) => ({
-        date,
+      const recentResponses = await db
+        .select({
+          responseId: responsesTable.id,
 
-        count,
-      }));
+          submittedAt: responsesTable.createdAt,
 
-    return {
-      totalForms: forms.length,
+          formTitle: formsTable.title,
+        })
+        .from(responsesTable)
+        .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
+        .where(eq(formsTable.creatorId, ctx.user.id))
+        .orderBy(desc(responsesTable.createdAt))
+        .limit(10);
+      const rawResponses = await db
+        .select({
+          submittedAt: responsesTable.createdAt,
+        })
+        .from(responsesTable)
+        .innerJoin(
+          formsTable,
 
-      totalResponses: Number(totalResponses[0]?.count ?? 0),
+          eq(responsesTable.formId, formsTable.id),
+        )
+        .where(eq(formsTable.creatorId, ctx.user.id));
 
-      recentForms,
+      const grouped = rawResponses.reduce(
+        (acc, response) => {
+          if (!response.submittedAt) return acc;
+          const date = new Date(response.submittedAt).toISOString().split("T")[0];
 
-      recentResponses,
+          acc[date] = (acc[date] ?? 0) + 1;
 
-      responsesOverTime,
-    };
-  }),
+          return acc;
+        },
+
+        {} as Record<string, number>,
+      );
+
+      const responsesOverTime = Object.entries(grouped)
+
+        .map(([date, count]) => ({
+          date,
+
+          count,
+        }));
+
+      return {
+        totalForms: forms.length,
+
+        totalResponses: Number(totalResponses[0]?.count ?? 0),
+
+        recentForms,
+
+        recentResponses,
+
+        responsesOverTime,
+      };
+    }),
 
   publishForm: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+
+        path: "/forms/publish",
+
+        tags: ["Forms"],
+      },
+    })
     .input(publishFormInput)
     .output(publishFormOutput)
     .mutation(async ({ ctx, input }) => {
@@ -303,6 +368,15 @@ export const formRouter = router({
     }),
 
   unpublishForm: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+
+        path: "/forms/unpublish",
+
+        tags: ["Forms"],
+      },
+    })
     .input(publishFormInput)
     .output(publishFormOutput)
     .mutation(async ({ ctx, input }) => {
@@ -329,21 +403,40 @@ export const formRouter = router({
       };
     }),
 
-  exploreForms: publicProcedure.output(exploreFormsOutput).query(async () => {
-    return await db
-      .select({
-        id: formsTable.id,
-        title: formsTable.title,
-        description: formsTable.description,
-        createdAt: formsTable.createdAt,
-      })
-      .from(formsTable)
-      .where(and(eq(formsTable.isPublished, true), eq(formsTable.visibility, "PUBLIC")))
-      .orderBy(desc(formsTable.createdAt));
-  }),
+  exploreForms: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+
+        path: "/forms/explore",
+
+        tags: ["Public"],
+      },
+    })
+    .output(exploreFormsOutput)
+    .query(async () => {
+      return await db
+        .select({
+          id: formsTable.id,
+          title: formsTable.title,
+          description: formsTable.description,
+          createdAt: formsTable.createdAt,
+        })
+        .from(formsTable)
+        .where(and(eq(formsTable.isPublished, true), eq(formsTable.visibility, "PUBLIC")))
+        .orderBy(desc(formsTable.createdAt));
+    }),
 
   getMyForm: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
 
+        path: "/forms/me/{formId}",
+
+        tags: ["Forms"],
+      },
+    })
     .input(getMyFormInput)
 
     .output(getMyFormOutput)

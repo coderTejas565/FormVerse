@@ -117,3 +117,23 @@ export const exploreFormsOutput = z.array(
 export const getMyFormInput = getFormInput;
 
 export const getMyFormOutput = getFormOutput;
+
+export const getMyFormsOutput = z.array(
+  z.object({
+    id: z.string(),
+
+    title: z.string(),
+
+    description: z.string().nullable().optional(),
+
+    visibility: z.enum(["PUBLIC", "UNLISTED"]),
+
+    isPublished: z.boolean().nullable(),
+
+    creatorId: z.string(),
+
+    createdAt: z.date().nullable(),
+
+    updatedAt: z.date().nullable(),
+  }),
+);
