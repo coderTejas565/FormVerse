@@ -1,8 +1,3 @@
-You’re at the stage where README quality affects judging. A weak README can make a solid project look unfinished.
-
-Use this structure and fill in your actual links/details.
-
-````md
 # FormVerse
 
 Production-style form builder SaaS built with Turborepo, tRPC, Zod, Drizzle ORM and Next.js.
