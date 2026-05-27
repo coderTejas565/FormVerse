@@ -12,14 +12,14 @@ export default function FormBuilderPage() {
 
   const utils = trpc.useUtils();
 
-  const { data, isLoading, isFetching, error } = trpc.form.getMyForm.useQuery(
+  const { data, isLoading, isFetching, error } = trpc.form.getForm.useQuery(
     { formId: id },
     { retry: false },
   );
 
   const addField = trpc.form.addField.useMutation({
     onSuccess() {
-      utils.form.getMyForm.invalidate({ formId: id });
+      utils.form.getForm.invalidate({ formId: id });
       setLabel("");
       setType("TEXT");
       setOptions("");
@@ -29,13 +29,13 @@ export default function FormBuilderPage() {
 
   const publish = trpc.form.publishForm.useMutation({
     onSuccess() {
-      utils.form.getMyForm.invalidate({ formId: id });
+      utils.form.getForm.invalidate({ formId: id });
     },
   });
 
   const unpublish = trpc.form.unpublishForm.useMutation({
     onSuccess() {
-      utils.form.getMyForm.invalidate({ formId: id });
+      utils.form.getForm.invalidate({ formId: id });
     },
   });
 
@@ -322,7 +322,7 @@ export default function FormBuilderPage() {
                   </h2>
                 </div>
 
-                <div className="space-y-2 max-h-[260px] overflow-y-auto pr-1">
+                <div className="space-y-2 max-h-65 overflow-y-auto pr-1">
                   {fields.length === 0 ? (
                     <div className="text-center py-8 border border-dashed border-brand-border/60 rounded-xl bg-workspace/10">
                       <p className="text-brand-muted text-xs font-medium">
@@ -368,7 +368,7 @@ export default function FormBuilderPage() {
               </div>
 
               {/* NESTED RENDER DISPLAY PREVIEW CONTAINER */}
-              <div className="bg-workspace/10 border border-brand-border/40 rounded-xl p-5 min-h-[380px] flex flex-col justify-between">
+              <div className="bg-workspace/10 border border-brand-border/40 rounded-xl p-5 min-h-95 flex flex-col justify-between">
                 <FormPreview fields={fields} values={values} setValues={setValues} />
               </div>
             </div>

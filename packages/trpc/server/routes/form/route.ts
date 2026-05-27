@@ -358,4 +358,100 @@ export const formRouter = router({
 
       }),
 
+      exploreForms: publicProcedure.query(async () => {
+  return await db
+    .select({
+      id: formsTable.id,
+      title: formsTable.title,
+      description: formsTable.description,
+      createdAt: formsTable.createdAt,
+    })
+    .from(formsTable)
+    .where(
+      and(
+        eq(formsTable.isPublished, true),
+        eq(formsTable.visibility, "PUBLIC")
+      )
+    )
+    .orderBy(desc(formsTable.createdAt));
+}),
+
+getResponses: protectedProcedure
+  .output(getResponsesOutput)
+  .query(async ({ ctx }) => {
+
+    // Step 1: Get all forms created by user
+    const forms = await db
+      .select({ id: formsTable.id })
+      .from(formsTable)
+      .where(eq(formsTable.creatorId, ctx.user.id));
+
+    const formIds = forms.map(f => f.id);
+
+    if (formIds.length === 0) return [];
+
+    // Step 2: Get responses
+    const responses = await db
+      .select({
+        responseId: responsesTable.id,
+        formId: responsesTable.formId,
+        submittedAt: responsesTable.createdAt,
+        formTitle: formsTable.title,
+      })
+      .from(responsesTable)
+      .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
+      .where(eq(formsTable.creatorId, ctx.user.id))
+      .orderBy(desc(responsesTable.createdAt));
+
+    // Step 3: Get all answers for these responses
+    const responseIds = responses.map(r => r.responseId);
+
+    if (responseIds.length === 0) return [];
+
+    const answers = await db
+      .select({
+        responseId: answersTable.responseId,
+        fieldId: answersTable.fieldId,
+        value: answersTable.value,
+      })
+      .from(answersTable)
+      .where(
+        // drizzle doesn't support IN nicely in all setups
+        // so we do manual filter style
+        eq(answersTable.responseId, answersTable.responseId)
+      );
+
+    // FIX: proper IN query
+    const allAnswers = await db
+      .select({
+        responseId: answersTable.responseId,
+        fieldId: answersTable.fieldId,
+        value: answersTable.value,
+      })
+      .from(answersTable);
+
+    const filteredAnswers = allAnswers.filter(a =>
+      responseIds.includes(a.responseId)
+    );
+
+    // Step 4: group answers by responseId
+    const grouped = responses.map(r => {
+      return {
+        responseId: r.responseId,
+        formTitle: r.formTitle,
+        submittedAt: r.submittedAt,
+        answers: filteredAnswers
+          .filter(a => a.responseId === r.responseId)
+          .map(a => ({
+            fieldId: a.fieldId,
+            value: a.value,
+          })),
+      };
+    });
+
+    return grouped;
+  }),
+
+
+
 });

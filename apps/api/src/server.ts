@@ -14,14 +14,14 @@ export const app = express();
 const openApiDocument = generateOpenApiDocument(serverRouter, {
   title: "FormVerse API",
   version: "1.0.0",
-  baseUrl: env.BASE_URL.concat("/api"),
+  baseUrl: `${env.BASE_URL}/api`,
 });
 
 app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://form-verse-api.vercel.app/"
+      "https://form-verse-api.vercel.app"
     ],
 
     credentials: true
