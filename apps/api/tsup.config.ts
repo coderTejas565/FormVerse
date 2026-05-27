@@ -2,23 +2,16 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["./src/index.ts"],
-
-  format: ["cjs"],
-
-  bundle: true,
-
-  splitting: false,
-
+  outDir: "dist",
   clean: true,
 
-  outDir: "./dist",
-
-  minify: true,
-
+  bundle: true,
+  splitting: false,
   sourcemap: false,
+  minify: false,
 
-  external: [],
-
-  // IMPORTANT FIX FOR MONOREPO
-  noExternal: ["@repo/*"],
+  // IMPORTANT: keep monorepo imports working
+  noExternal: [
+    "@repo/*",
+  ],
 });
