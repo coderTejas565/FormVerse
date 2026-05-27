@@ -19,10 +19,14 @@ const openApiDocument = generateOpenApiDocument(serverRouter, {
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  }),
-);
+    origin: [
+      "http://localhost:3000",
+      "https://your-vercel-url.vercel.app"
+    ],
+
+    credentials: true
+  })
+)
 
 app.use(cookieParser());
 
