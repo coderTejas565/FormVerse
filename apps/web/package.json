@@ -11,6 +11,9 @@
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@fontsource/geist-mono": "^5.2.8",
+    "@fontsource/geist-sans": "^5.2.5",
+    "@fontsource/instrument-serif": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/orbitron": "^5.2.8",
