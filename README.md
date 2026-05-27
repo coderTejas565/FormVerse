@@ -21,15 +21,16 @@ demo@test.com
 Password:
 password123
 
-
 ## Features
 
 Authentication
+
 - Signup/Login with JWT authentication
 - Protected creator dashboard
 - Persistent authentication using cookies
 
 Form Management
+
 - Create forms
 - Edit forms
 - Publish/unpublish forms
@@ -39,6 +40,7 @@ Form Management
 - Multiple field types
 
 Supported Field Types
+
 - Short text
 - Long text
 - Email
@@ -50,6 +52,7 @@ Supported Field Types
 - Date
 
 Public Forms
+
 - Public explore page
 - Shareable form links
 - Public form submissions without login
@@ -57,6 +60,7 @@ Public Forms
 - Thank-you screen after submission
 
 Analytics & Responses
+
 - Total responses
 - Response charts
 - Recent submissions
@@ -64,6 +68,7 @@ Analytics & Responses
 - View submitted answers
 
 Developer Features
+
 - API documentation using Scalar
 - Type-safe APIs with tRPC
 - Validation with Zod
@@ -72,40 +77,45 @@ Developer Features
 - Drizzle ORM migrations
 
 Extra Features
+
 - Explore page
 - Landing page
 - Pricing page
 - Seeded demo data
 - Dashboard analytics
 
-
 ## Tech Stack
 
 Frontend:
+
 - Next.js
 - React
 - Tailwind CSS
 - tRPC client
 
 Backend:
+
 - Express
 - tRPC server
 - JWT Authentication
 
 Database:
+
 - PostgreSQL
 - Drizzle ORM
 
 Monorepo:
+
 - Turborepo
 - pnpm workspaces
 
 Validation:
+
 - Zod
 
 API Docs:
-- Scalar
 
+- Scalar
 
 ## Architecture
 
@@ -121,6 +131,7 @@ packages/
  ├── logger
  └── shared utils
 ```
+
 ````
 
 ## Setup
@@ -292,3 +303,4 @@ Included:
 * Password protected forms
 * QR sharing
 
+````

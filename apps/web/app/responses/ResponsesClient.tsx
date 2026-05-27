@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -8,38 +8,26 @@ export default function ResponsesClient() {
   const searchParams = useSearchParams();
   const targetFormId = searchParams.get("formId");
 
-  const { data = [], isLoading } =
-    trpc.form.getResponses.useQuery();
+  const { data = [], isLoading } = trpc.form.getResponses.useQuery();
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
   const filteredResponses = data;
 
-  const activeFormTitle =
-    filteredResponses.length > 0
-      ? filteredResponses[0]?.formTitle
-      : null;
+  const activeFormTitle = filteredResponses.length > 0 ? filteredResponses[0]?.formTitle : null;
 
   return (
     <div className="min-h-screen p-8">
       <div className="max-w-7xl mx-auto">
-
         <div className="flex justify-between mb-8">
-
           <div>
             <Link href="/dashboard" className="text-sm text-gray-500">
               Dashboard
             </Link>
 
-            <h1 className="text-3xl font-bold mt-2">
-              {activeFormTitle ?? "Responses"}
-            </h1>
+            <h1 className="text-3xl font-bold mt-2">{activeFormTitle ?? "Responses"}</h1>
           </div>
 
           {targetFormId && (
@@ -67,16 +55,13 @@ export default function ResponsesClient() {
                   <td>{response.formTitle}</td>
 
                   <td>
-                    {response.submittedAt
-                      ? new Date(response.submittedAt).toLocaleString()
-                      : "-"}
+                    {response.submittedAt ? new Date(response.submittedAt).toLocaleString() : "-"}
                   </td>
 
                   <td>
                     {response.answers.map((answer) => (
                       <div key={answer.fieldId}>
-                        <strong>{answer.fieldId.slice(0, 6)}</strong> :{" "}
-                        {answer.value}
+                        <strong>{answer.fieldId.slice(0, 6)}</strong> : {answer.value}
                       </div>
                     ))}
                   </td>
@@ -85,7 +70,6 @@ export default function ResponsesClient() {
             </tbody>
           </table>
         )}
-
       </div>
     </div>
   );
