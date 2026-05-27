@@ -16,13 +16,19 @@ interface Props {
   isPublicView?: boolean;
 }
 
-export function FormPreview({ fields, values, setValues, onSubmitAction, isPublicView = false }: Props) {
+export function FormPreview({
+  fields,
+  values,
+  setValues,
+  onSubmitAction,
+  isPublicView = false,
+}: Props) {
   function update(fieldId: string, value: string) {
     setValues((prev) => ({ ...prev, [fieldId]: value }));
   }
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault(); 
+    e.preventDefault();
     if (onSubmitAction) {
       onSubmitAction(values);
     } else {
@@ -33,10 +39,10 @@ export function FormPreview({ fields, values, setValues, onSubmitAction, isPubli
   // Safely parse options into a string array regardless of how the database saves it
   function getSafeOptions(options: any): string[] {
     if (!options) return [];
-    
+
     // Case 1: It is already a clean array
     if (Array.isArray(options)) return options;
-    
+
     // Case 2: It is a string
     if (typeof options === "string") {
       const trimmed = options.trim();
@@ -50,16 +56,21 @@ export function FormPreview({ fields, values, setValues, onSubmitAction, isPubli
         }
       }
       // Otherwise, treat it as a standard comma-separated string
-      return trimmed.split(",").map(o => o.trim()).filter(Boolean);
+      return trimmed
+        .split(",")
+        .map((o) => o.trim())
+        .filter(Boolean);
     }
-    
+
     return [];
   }
 
   if (!fields || fields.length === 0) {
     return (
       <div className="text-center py-12 border border-dashed border-brand-border/60 rounded-xl bg-workspace/10">
-        <p className="text-xs text-brand-muted font-medium">No layout elements mapped onto the active preview canvas yet.</p>
+        <p className="text-xs text-brand-muted font-medium">
+          No layout elements mapped onto the active preview canvas yet.
+        </p>
       </div>
     );
   }
@@ -75,7 +86,7 @@ export function FormPreview({ fields, values, setValues, onSubmitAction, isPubli
           padding: 0.75rem 1rem !important;
           font-size: 0.8125rem !important;
           /* CHANGED: Text color forced to dark slate for crystal clear contrast */
-          color: #111827 !important; 
+          color: #111827 !important;
           font-weight: 500 !important;
           outline: none !important;
           transition: all 0.2s ease !important;
@@ -86,7 +97,7 @@ export function FormPreview({ fields, values, setValues, onSubmitAction, isPubli
         }
         .preview-input-element:focus {
           background-color: #ffffff !important;
-          border-color: #034F46 !important;
+          border-color: #034f46 !important;
           box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.15) !important;
         }
         .preview-input-element::placeholder {

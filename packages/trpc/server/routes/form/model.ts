@@ -137,3 +137,21 @@ export const getMyFormsOutput = z.array(
     updatedAt: z.date().nullable(),
   }),
 );
+
+export const getResponsesOutput = z.array(
+  z.object({
+    responseId: z.string(),
+
+    formTitle: z.string(),
+
+    submittedAt: z.date().nullable(),
+
+    answers: z.array(
+      z.object({
+        fieldId: z.string(),
+
+        value: z.string(),
+      }),
+    ),
+  }),
+);

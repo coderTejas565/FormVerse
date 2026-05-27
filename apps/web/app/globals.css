@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-forest: #034F46;
-  --color-sage-cream: #E6EEDB; 
+  --color-forest: #034f46;
+  --color-sage-cream: #e6eedb;
 
   --action-primary: var(--color-forest);
   --action-text: var(--color-sage-cream);
-  
+
   --color-action: var(--action-primary);
   --color-action-content: var(--action-text);
 }

@@ -53,7 +53,7 @@ export default function SignupPage() {
 
         .premium-auth-mesh input:focus {
           background-color: rgba(3, 79, 70, 0.04) !important;
-          border-color: #034F46 !important;
+          border-color: #034f46 !important;
           box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.2) !important;
         }
 
@@ -66,15 +66,12 @@ export default function SignupPage() {
 
       <div className="min-h-screen bg-workspace flex items-center justify-center p-4 antialiased font-sans text-brand-text">
         <div className="w-full max-w-md my-auto space-y-6">
-          
           {/* MAIN SURFACE WRAPPER */}
           <div className="bg-canvas border border-brand-border rounded-2xl shadow-xl overflow-hidden">
-            
             {/* BRAND ACCENT TOP BAR */}
             <div className="h-1.5 w-full bg-[#034F46]" />
-            
+
             <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6 premium-auth-mesh">
-              
               {/* HEADER BLOCK */}
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2 group">
@@ -86,7 +83,8 @@ export default function SignupPage() {
                   </h1>
                 </div>
                 <p className="text-xs text-brand-muted leading-relaxed">
-                  Create your account to design gorgeous forms, accept immediate responses, and gather insights.
+                  Create your account to design gorgeous forms, accept immediate responses, and
+                  gather insights.
                 </p>
               </div>
 
@@ -112,12 +110,12 @@ export default function SignupPage() {
                 <label className="block text-xs font-semibold tracking-wide text-brand-text opacity-90">
                   Email Address
                 </label>
-                <input 
+                <input
                   type="email"
                   required
-                  placeholder="name@domain.com" 
-                  value={email} 
-                  onChange={(e) => setEmail(e.target.value)} 
+                  placeholder="name@domain.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="font-sans"
                 />
               </div>
@@ -139,16 +137,31 @@ export default function SignupPage() {
 
               {/* ACTION TRIGGER */}
               <div className="pt-2">
-                <button 
+                <button
                   type="submit"
                   disabled={signup.isPending}
                   className="w-full bg-[#034F46] text-[#E6EEDB] rounded-xl py-3 text-xs font-semibold tracking-wide transition-all duration-200 hover:bg-[#023b34] active:scale-[0.99] disabled:opacity-40 disabled:pointer-events-none cursor-pointer flex items-center justify-center gap-2 shadow-sm font-sans"
                 >
                   {signup.isPending ? (
                     <>
-                      <svg className="animate-spin h-3.5 w-3.5 text-[#E6EEDB]" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      <svg
+                        className="animate-spin h-3.5 w-3.5 text-[#E6EEDB]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
                       </svg>
                       Creating account...
                     </>
@@ -157,7 +170,6 @@ export default function SignupPage() {
                   )}
                 </button>
               </div>
-
             </form>
           </div>
 
@@ -166,7 +178,6 @@ export default function SignupPage() {
             <span>Powered by</span>
             <span className="font-semibold text-brand-muted/60">FormVerse Studio</span>
           </div>
-
         </div>
       </div>
     </>

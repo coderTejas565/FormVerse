@@ -22,9 +22,7 @@ export default function ResponsesChart({ data }: ResponsesChartProps) {
   if (!data?.length) {
     return (
       <div className="h-full w-full flex items-center justify-center min-h-[200px]">
-        <p className="text-xs text-brand-muted italic">
-          No response data available yet
-        </p>
+        <p className="text-xs text-brand-muted italic">No response data available yet</p>
       </div>
     );
   }
@@ -42,11 +40,7 @@ export default function ResponsesChart({ data }: ResponsesChartProps) {
           }}
         >
           {/* Subtle grid lines matching the layout style */}
-          <CartesianGrid
-            strokeDasharray="3 3"
-            vertical={false}
-            stroke="rgba(3, 79, 70, 0.08)"
-          />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(3, 79, 70, 0.08)" />
 
           <XAxis
             dataKey="date"

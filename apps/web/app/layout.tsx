@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 // FormVerse Typography Stack
-import "@fontsource/instrument-serif/400-italic.css"; 
+import "@fontsource/instrument-serif/400-italic.css";
 import "@fontsource/geist-sans/400.css";
 import "@fontsource/geist-sans/500.css";
 import "@fontsource/geist-mono/400.css";
@@ -15,11 +15,7 @@ export const metadata: Metadata = {
   description: "Craft-focused Form Builder Architecture",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     /* 1. Swapped "dark" to "light" or removed completely */
     <html lang="en" className="light">
@@ -28,9 +24,7 @@ export default function RootLayout({
         4. Kept the selection styling matching your brand focus color with a tiny opacity layer
       */}
       <body className="bg-workspace text-brand-text font-sans antialiased selection:bg-[#034F46/10] selection:text-[#034F46]">
-        <GlobalProviders>
-          {children}
-        </GlobalProviders>
+        <GlobalProviders>{children}</GlobalProviders>
       </body>
     </html>
   );

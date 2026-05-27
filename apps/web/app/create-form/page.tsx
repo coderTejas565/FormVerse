@@ -30,14 +30,16 @@ export default function CreateFormPage() {
   return (
     <div className="min-h-screen bg-workspace p-6 md:p-10 lg:p-12 antialiased font-sans text-brand-text flex flex-col justify-center items-center">
       <div className="max-w-2xl w-full space-y-4">
-        
         {/* NAV LINK */}
         <div className="flex items-center">
-          <Link 
-            href="/dashboard" 
+          <Link
+            href="/dashboard"
             className="inline-flex items-center gap-1.5 text-xs text-brand-muted hover:text-brand-text transition-colors duration-150 group"
           >
-            <span className="transition-transform duration-150 group-hover:-translate-x-0.5">←</span> Back to Dashboard
+            <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
+              ←
+            </span>{" "}
+            Back to Dashboard
           </Link>
         </div>
 
@@ -65,9 +67,7 @@ export default function CreateFormPage() {
 
           {/* FIELD: TITLE */}
           <div className="space-y-2">
-            <label className="block text-xs font-medium text-brand-muted">
-              Form Title
-            </label>
+            <label className="block text-xs font-medium text-brand-muted">Form Title</label>
             <input
               type="text"
               required
@@ -80,9 +80,7 @@ export default function CreateFormPage() {
 
           {/* FIELD: DESCRIPTION */}
           <div className="space-y-2">
-            <label className="block text-xs font-medium text-brand-muted">
-              Description
-            </label>
+            <label className="block text-xs font-medium text-brand-muted">Description</label>
             <textarea
               placeholder="Add guidelines or a brief context summary for this submission form..."
               value={description}
@@ -94,44 +92,53 @@ export default function CreateFormPage() {
 
           {/* FIELD: VISIBILITY */}
           <div className="space-y-2">
-            <label className="block text-xs font-medium text-brand-muted">
-              Visibility Scope
-            </label>
+            <label className="block text-xs font-medium text-brand-muted">Visibility Scope</label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              
               {/* Option: PUBLIC */}
-              <div 
+              <div
                 onClick={() => setVisibility("PUBLIC")}
                 className={`border rounded-lg p-4 cursor-pointer transition-all flex items-start gap-3 ${
-                  visibility === "PUBLIC" 
-                    ? "border-[#034F46] bg-[#034F46]/5" 
+                  visibility === "PUBLIC"
+                    ? "border-[#034F46] bg-[#034F46]/5"
                     : "border-brand-border/50 bg-workspace/10 hover:bg-workspace/20 hover:border-brand-border/80"
                 }`}
               >
-                <div className={`mt-0.5 w-3.5 h-3.5 rounded-full border flex items-center justify-center ${visibility === "PUBLIC" ? "border-[#034F46]" : "border-brand-muted/60"}`}>
-                  {visibility === "PUBLIC" && <div className="w-1.5 h-1.5 rounded-full bg-[#034F46]" />}
+                <div
+                  className={`mt-0.5 w-3.5 h-3.5 rounded-full border flex items-center justify-center ${visibility === "PUBLIC" ? "border-[#034F46]" : "border-brand-muted/60"}`}
+                >
+                  {visibility === "PUBLIC" && (
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#034F46]" />
+                  )}
                 </div>
                 <div className="space-y-0.5">
                   <p className="text-xs font-medium text-brand-text">Public</p>
-                  <p className="text-[11px] text-brand-muted leading-normal">Discoverable across dashboard directories and shared paths.</p>
+                  <p className="text-[11px] text-brand-muted leading-normal">
+                    Discoverable across dashboard directories and shared paths.
+                  </p>
                 </div>
               </div>
 
               {/* Option: UNLISTED */}
-              <div 
+              <div
                 onClick={() => setVisibility("UNLISTED")}
                 className={`border rounded-lg p-4 cursor-pointer transition-all flex items-start gap-3 ${
-                  visibility === "UNLISTED" 
-                    ? "border-[#034F46] bg-[#034F46]/5" 
+                  visibility === "UNLISTED"
+                    ? "border-[#034F46] bg-[#034F46]/5"
                     : "border-brand-border/50 bg-workspace/10 hover:bg-workspace/20 hover:border-brand-border/80"
                 }`}
               >
-                <div className={`mt-0.5 w-3.5 h-3.5 rounded-full border flex items-center justify-center ${visibility === "UNLISTED" ? "border-[#034F46]" : "border-brand-muted/60"}`}>
-                  {visibility === "UNLISTED" && <div className="w-1.5 h-1.5 rounded-full bg-[#034F46]" />}
+                <div
+                  className={`mt-0.5 w-3.5 h-3.5 rounded-full border flex items-center justify-center ${visibility === "UNLISTED" ? "border-[#034F46]" : "border-brand-muted/60"}`}
+                >
+                  {visibility === "UNLISTED" && (
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#034F46]" />
+                  )}
                 </div>
                 <div className="space-y-0.5">
                   <p className="text-xs font-medium text-brand-text">Unlisted</p>
-                  <p className="text-[11px] text-brand-muted leading-normal">Hidden from dashboard directories. Accessible only via direct URL link.</p>
+                  <p className="text-[11px] text-brand-muted leading-normal">
+                    Hidden from dashboard directories. Accessible only via direct URL link.
+                  </p>
                 </div>
               </div>
             </div>
@@ -145,7 +152,6 @@ export default function CreateFormPage() {
             {createForm.isPending ? "Creating form..." : "Open Canvas Builder →"}
           </button>
         </form>
-
       </div>
     </div>
   );

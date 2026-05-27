@@ -1,135 +1,299 @@
-# Turborepo starter
+You’re at the stage where README quality affects judging. A weak README can make a solid project look unfinished.
 
-This Turborepo starter is maintained by the Turborepo core team.
+Use this structure and fill in your actual links/details.
 
-## Using this example
+````md
+# FormVerse
 
-Run the following command:
+Production-style form builder SaaS built with Turborepo, tRPC, Zod, Drizzle ORM and Next.js.
 
-```sh
-npx create-turbo@latest
+Users can create dynamic forms, publish shareable links, collect responses, view analytics and manage submissions.
+
+Live Demo:
+[Add deployed frontend URL]
+
+API Documentation:
+[Add Scalar docs URL]
+
+GitHub Repository:
+[Add GitHub URL]
+
+Demo Credentials:
+
+Email:
+demo@test.com
+
+Password:
+password123
+
+
+## Features
+
+Authentication
+- Signup/Login with JWT authentication
+- Protected creator dashboard
+- Persistent authentication using cookies
+
+Form Management
+- Create forms
+- Edit forms
+- Publish/unpublish forms
+- Public and unlisted visibility modes
+- Dynamic field builder
+- Required/optional fields
+- Multiple field types
+
+Supported Field Types
+- Short text
+- Long text
+- Email
+- Number
+- Single select
+- Multi select
+- Checkbox
+- Rating
+- Date
+
+Public Forms
+- Public explore page
+- Shareable form links
+- Public form submissions without login
+- Visibility enforcement
+- Thank-you screen after submission
+
+Analytics & Responses
+- Total responses
+- Response charts
+- Recent submissions
+- Response management dashboard
+- View submitted answers
+
+Developer Features
+- API documentation using Scalar
+- Type-safe APIs with tRPC
+- Validation with Zod
+- Rate limiting
+- Shared packages in monorepo
+- Drizzle ORM migrations
+
+Extra Features
+- Explore page
+- Landing page
+- Pricing page
+- Seeded demo data
+- Dashboard analytics
+
+
+## Tech Stack
+
+Frontend:
+- Next.js
+- React
+- Tailwind CSS
+- tRPC client
+
+Backend:
+- Express
+- tRPC server
+- JWT Authentication
+
+Database:
+- PostgreSQL
+- Drizzle ORM
+
+Monorepo:
+- Turborepo
+- pnpm workspaces
+
+Validation:
+- Zod
+
+API Docs:
+- Scalar
+
+
+## Architecture
+
+```txt
+apps/
+ ├── web        -> Next.js frontend
+ └── api        -> Express + tRPC backend
+
+packages/
+ ├── database   -> Drizzle schemas + DB
+ ├── services   -> Business logic
+ ├── trpc       -> Routes + procedures
+ ├── logger
+ └── shared utils
+```
+````
+
+## Setup
+
+Clone repository:
+
+```bash
+git clone [repo-url]
+cd FormVerse
 ```
 
-## What's inside?
+Install dependencies:
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+pnpm install
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Create environment variables:
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+Example:
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```env
+DATABASE_URL=
+JWT_SECRET=
+NEXT_PUBLIC_API_URL=
 ```
 
-### Develop
+Run migrations:
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+```bash
+pnpm db:generate
+pnpm db:migrate
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Start development:
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+```bash
+pnpm dev
 ```
 
-### Remote Caching
+Frontend:
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```txt
+http://localhost:3000
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+Backend:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+```txt
+http://localhost:8000
 ```
 
-## Useful Links
+API Docs:
 
-Learn more about the power of Turborepo:
+```txt
+http://localhost:8000/docs
+```
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+---
+
+## Demo Data
+
+Included seeded forms:
+
+1. Anime Character Survey
+2. Startup Validation Form
+3. Movie Feedback Survey
+
+Each contains:
+
+* Sample responses
+* Analytics data
+* Charts
+
+---
+
+## API Documentation
+
+Interactive API docs:
+
+```txt
+[Add deployed docs URL]
+```
+
+Local:
+
+```txt
+http://localhost:8000/docs
+```
+
+---
+
+## Screenshots
+
+Add screenshots:
+
+### Landing Page
+
+[Insert image]
+
+### Dashboard
+
+[Insert image]
+
+### Form Builder
+
+[Insert image]
+
+### Analytics
+
+[Insert image]
+
+### Responses Dashboard
+
+[Insert image]
+
+### Explore Page
+
+[Insert image]
+
+---
+
+## Deployment
+
+Frontend:
+
+```txt
+[Add Vercel URL]
+```
+
+Backend:
+
+```txt
+[Add deployment URL]
+```
+
+Database:
+
+```txt
+[Add Neon/Supabase URL if needed]
+```
+
+---
+
+## Submission Checklist
+
+Included:
+
+* Public GitHub repository
+* Deployed project
+* Demo credentials
+* API documentation
+* README
+* Seed data
+* Landing page
+* Pricing page
+* Analytics
+* Response management
+* Explore page
+
+---
+
+## Future Improvements
+
+* Email notifications
+* CSV export
+* Conditional logic
+* Form templates
+* Password protected forms
+* QR sharing
+

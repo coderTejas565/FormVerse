@@ -19,6 +19,7 @@ import {
   getMyFormInput,
   getMyFormOutput,
   getMyFormsOutput,
+  getResponsesOutput,
 } from "./model";
 import { responsesTable } from "@repo/database/models/responses";
 import { answersTable } from "@repo/database/models/answers";
@@ -490,4 +491,62 @@ export const formRouter = router({
         };
       },
     ),
+
+  getResponses: protectedProcedure
+
+    .output(getResponsesOutput)
+
+    .query(async ({ ctx }) => {
+      const responses = await db
+
+        .select({
+          responseId: responsesTable.id,
+
+          submittedAt: responsesTable.createdAt,
+
+          formTitle: formsTable.title,
+        })
+
+        .from(responsesTable)
+
+        .innerJoin(
+          formsTable,
+
+          eq(responsesTable.formId, formsTable.id),
+        )
+
+        .where(eq(formsTable.creatorId, ctx.user.id))
+
+        .orderBy(desc(responsesTable.createdAt));
+
+      const result = await Promise.all(
+        responses.map(async (response) => {
+          const answers = await db
+
+            .select({
+              fieldId: answersTable.fieldId,
+
+              value: answersTable.value,
+            })
+
+            .from(answersTable)
+
+            .where(
+              eq(
+                answersTable.responseId,
+
+                response.responseId,
+              ),
+            );
+
+          return {
+            ...response,
+
+            answers,
+          };
+        }),
+      );
+
+      return result;
+    }),
 });

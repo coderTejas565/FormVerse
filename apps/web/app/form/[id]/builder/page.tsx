@@ -14,7 +14,7 @@ export default function FormBuilderPage() {
 
   const { data, isLoading, isFetching, error } = trpc.form.getMyForm.useQuery(
     { formId: id },
-    { retry: false }
+    { retry: false },
   );
 
   const addField = trpc.form.addField.useMutation({
@@ -62,7 +62,12 @@ export default function FormBuilderPage() {
         <div className="w-full max-w-sm bg-canvas border border-brand-border rounded-xl p-6 text-center space-y-4">
           <div className="w-10 h-10 rounded-full bg-red-500/10 text-red-600 flex items-center justify-center mx-auto">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
             </svg>
           </div>
           <div className="space-y-1">
@@ -123,7 +128,7 @@ export default function FormBuilderPage() {
         }
         .premium-input-style:focus {
           background-color: transparent !important;
-          border-color: #034F46 !important;
+          border-color: #034f46 !important;
           box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.15) !important;
         }
         .premium-input-style::placeholder {
@@ -133,14 +138,26 @@ export default function FormBuilderPage() {
 
       <div className="min-h-screen bg-workspace p-4 md:p-8 lg:p-12 text-brand-text antialiased font-sans">
         <div className="max-w-7xl mx-auto space-y-6">
-          
           {/* TOP CONTROLS ACCENT HEADER */}
           <div className="bg-canvas border border-brand-border/50 rounded-2xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
             <div className="space-y-1 max-w-xl">
               <div className="flex items-center gap-2">
-                <Link href="/dashboard" className="p-1.5 rounded-lg bg-workspace border border-brand-border text-brand-muted hover:text-brand-text transition-colors">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                <Link
+                  href="/dashboard"
+                  className="p-1.5 rounded-lg bg-workspace border border-brand-border text-brand-muted hover:text-brand-text transition-colors"
+                >
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
                   </svg>
                 </Link>
                 <span className="text-xs text-brand-border">/</span>
@@ -148,17 +165,19 @@ export default function FormBuilderPage() {
                   {form.title}
                 </h1>
               </div>
-              
+
               <p className="text-xs text-brand-muted truncate max-w-md">
                 {form.description || "No layout description provided."}
               </p>
-              
+
               <div className="flex items-center gap-3 pt-1">
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${
-                  form.isPublished
-                    ? "bg-emerald-500/5 text-emerald-700 border-emerald-500/20"
-                    : "bg-workspace border-brand-border text-brand-muted"
-                }`}>
+                <span
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${
+                    form.isPublished
+                      ? "bg-emerald-500/5 text-emerald-700 border-emerald-500/20"
+                      : "bg-workspace border-brand-border text-brand-muted"
+                  }`}
+                >
                   {form.isPublished ? "LIVE" : "DRAFT"}
                 </span>
 
@@ -176,7 +195,11 @@ export default function FormBuilderPage() {
             {/* Header Action Buttons */}
             <div className="flex items-center gap-2 w-full sm:w-auto text-xs font-semibold">
               <button
-                onClick={() => form.isPublished ? unpublish.mutate({ formId: id }) : publish.mutate({ formId: id })}
+                onClick={() =>
+                  form.isPublished
+                    ? unpublish.mutate({ formId: id })
+                    : publish.mutate({ formId: id })
+                }
                 className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl transition-all border text-center cursor-pointer shadow-sm ${
                   form.isPublished
                     ? "border-brand-border bg-canvas text-red-600 hover:bg-red-50/50"
@@ -197,10 +220,8 @@ export default function FormBuilderPage() {
 
           {/* INTERACTIVE WORKING DESIGN GRID */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            
             {/* COLUMN LEFT: INPUT CREATION & FIELDS TREE */}
             <div className="lg:col-span-5 space-y-6">
-              
               {/* ADD ELEMENT COMPONENT CONTAINER */}
               <div className="bg-canvas border border-brand-border/50 rounded-2xl p-5 space-y-4 shadow-sm">
                 <div className="flex items-center gap-1.5 border-b border-brand-border/40 pb-2">
@@ -212,7 +233,9 @@ export default function FormBuilderPage() {
 
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-semibold tracking-wide text-brand-muted uppercase">Input Label</label>
+                    <label className="block text-[11px] font-semibold tracking-wide text-brand-muted uppercase">
+                      Input Label
+                    </label>
                     <input
                       type="text"
                       placeholder="e.g. Work Email Address"
@@ -223,18 +246,30 @@ export default function FormBuilderPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-semibold tracking-wide text-brand-muted uppercase">Element Type</label>
+                    <label className="block text-[11px] font-semibold tracking-wide text-brand-muted uppercase">
+                      Element Type
+                    </label>
                     <div className="relative">
                       <select
                         value={type}
                         onChange={(e) => setType(e.target.value)}
                         className="w-full premium-input-style text-xs rounded-xl px-4 py-2.5 font-medium appearance-none cursor-pointer"
                       >
-                        <option value="TEXT" className="bg-canvas">Short Answer (Text)</option>
-                        <option value="EMAIL" className="bg-canvas">Email Address</option>
-                        <option value="NUMBER" className="bg-canvas">Number Input</option>
-                        <option value="TEXTAREA" className="bg-canvas">Long Answer (Textarea)</option>
-                        <option value="SELECT" className="bg-canvas">Dropdown Select Menu</option>
+                        <option value="TEXT" className="bg-canvas">
+                          Short Answer (Text)
+                        </option>
+                        <option value="EMAIL" className="bg-canvas">
+                          Email Address
+                        </option>
+                        <option value="NUMBER" className="bg-canvas">
+                          Number Input
+                        </option>
+                        <option value="TEXTAREA" className="bg-canvas">
+                          Long Answer (Textarea)
+                        </option>
+                        <option value="SELECT" className="bg-canvas">
+                          Dropdown Select Menu
+                        </option>
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-brand-muted text-[10px]">
                         ▼
@@ -244,7 +279,9 @@ export default function FormBuilderPage() {
 
                   {type === "SELECT" && (
                     <div className="space-y-1.5 animate-[fadeIn_0.2s_ease-out]">
-                      <label className="block text-[11px] font-semibold tracking-wide text-brand-muted uppercase">Menu List Items</label>
+                      <label className="block text-[11px] font-semibold tracking-wide text-brand-muted uppercase">
+                        Menu List Items
+                      </label>
                       <textarea
                         placeholder="Separate list values using commas (e.g. Design, Engineering, Marketing)"
                         value={options}
@@ -306,7 +343,7 @@ export default function FormBuilderPage() {
                             Type: <span className="text-[#034F46]">{field.type}</span>
                           </span>
                         </div>
-                        
+
                         {field.required && (
                           <span className="text-[9px] font-bold bg-red-500/5 text-red-600 px-2 py-0.5 rounded-md border border-red-500/10 uppercase tracking-wider">
                             Required
@@ -335,7 +372,6 @@ export default function FormBuilderPage() {
                 <FormPreview fields={fields} values={values} setValues={setValues} />
               </div>
             </div>
-
           </div>
         </div>
       </div>

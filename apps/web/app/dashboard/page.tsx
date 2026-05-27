@@ -45,9 +45,7 @@ export default function DashboardPage() {
   // Client-side search filtration
   const filteredForms = useMemo(() => {
     if (!forms) return [];
-    return forms.filter((form) =>
-      form.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return forms.filter((form) => form.title.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [forms, searchQuery]);
 
   // Copy-to-Clipboard logic
@@ -83,7 +81,6 @@ export default function DashboardPage() {
           width: 100% !important;
           background-color: rgba(3, 79, 70, 0.06) !important;
           border: 1px solid rgba(3, 79, 70, 0.2) !important;
-          /* CHANGED: Forced input color to high-contrast dark slate */
           color: #111827 !important;
           font-weight: 500 !important;
           outline: none !important;
@@ -94,20 +91,17 @@ export default function DashboardPage() {
           border-color: rgba(3, 79, 70, 0.35) !important;
         }
         .premium-search-field:focus {
-          /* CHANGED: Background shifts clean white on active focus */
           background-color: #ffffff !important;
-          border-color: #034F46 !important;
+          border-color: #034f46 !important;
           box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.15) !important;
         }
         .premium-search-field::placeholder {
-          /* CHANGED: Increased contrast on placeholder text */
           color: rgba(17, 24, 39, 0.45) !important;
         }
       `}</style>
 
       <div className="min-h-screen bg-workspace p-6 md:p-10 lg:p-12 text-brand-text antialiased font-sans">
         <div className="max-w-7xl mx-auto space-y-8">
-          
           {/* HEADER SECTION */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-brand-border/40 pb-6 gap-4">
             <div className="space-y-1">
@@ -123,21 +117,30 @@ export default function DashboardPage() {
                 </span>
               </div>
               <p className="text-xs text-brand-muted max-w-xl">
-                Review automated workflow performance, aggregate submissions, and build high-conversion distribution forms.
+                Review automated workflow performance, aggregate submissions, and build
+                high-conversion distribution forms.
               </p>
             </div>
 
-            <Link
-              href="/create-form"
-              className="inline-flex items-center justify-center bg-[#034F46] text-[#E6EEDB] font-semibold text-xs px-5 py-3 rounded-xl shadow-sm transition-all duration-200 hover:bg-[#023b34] active:scale-[0.98] text-center"
-            >
-              Create New Form
-            </Link>
+            {/* ACTION LINKS BLOCK */}
+            <div className="flex items-center gap-3">
+              <Link
+                href="/responses"
+                className="inline-flex items-center justify-center border border-brand-border/80 bg-white text-brand-text font-semibold text-xs px-4 py-3 rounded-xl shadow-sm transition-all duration-200 hover:border-brand-text/40 active:scale-[0.98] text-center"
+              >
+                View Submissions
+              </Link>
+              <Link
+                href="/create-form"
+                className="inline-flex items-center justify-center bg-[#034F46] text-[#E6EEDB] font-semibold text-xs px-5 py-3 rounded-xl shadow-sm transition-all duration-200 hover:bg-[#023b34] active:scale-[0.98] text-center"
+              >
+                Create New Form
+              </Link>
+            </div>
           </div>
 
           {/* BENTO LAYOUT METRICS GRID */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
             {/* METRIC 1: TOTAL FORMS */}
             <div className="bg-canvas border border-brand-border/50 rounded-2xl p-6 transition-all duration-200 hover:border-brand-border/80 hover:shadow-md group relative">
               <div className="flex justify-between items-center">
@@ -146,7 +149,12 @@ export default function DashboardPage() {
                 </p>
                 <div className="text-brand-muted group-hover:text-[#034F46] transition-colors">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
                   </svg>
                 </div>
               </div>
@@ -164,7 +172,12 @@ export default function DashboardPage() {
                 </p>
                 <div className="text-brand-muted group-hover:text-emerald-600 transition-colors">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
                   </svg>
                 </div>
               </div>
@@ -172,7 +185,8 @@ export default function DashboardPage() {
                 {analytics.data?.totalResponses ?? 0}
               </h2>
               <p className="text-xs text-emerald-600 font-medium mt-1.5 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live entry pipelines active
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
+                entry pipelines active
               </p>
             </div>
 
@@ -184,7 +198,12 @@ export default function DashboardPage() {
                 </p>
                 <div className="text-brand-muted group-hover:text-amber-500 transition-colors">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </div>
               </div>
@@ -203,7 +222,9 @@ export default function DashboardPage() {
                     Submission Timeline
                   </h2>
                 </div>
-                <span className="text-[10px] font-bold text-brand-muted uppercase bg-brand-text/5 px-2 py-0.5 rounded">Analytics Overview</span>
+                <span className="text-[10px] font-bold text-brand-muted uppercase bg-brand-text/5 px-2 py-0.5 rounded">
+                  Analytics Overview
+                </span>
               </div>
               <div className="h-64 flex flex-col justify-end opacity-95 hover:opacity-100 transition-opacity duration-200">
                 <ResponsesChart data={analytics.data?.responsesOverTime ?? []} />
@@ -220,7 +241,9 @@ export default function DashboardPage() {
 
               <div className="divide-y divide-brand-border/20 overflow-y-auto flex-1 max-h-64 pr-1 space-y-1">
                 {!analytics.data?.recentResponses || analytics.data.recentResponses.length === 0 ? (
-                  <p className="text-xs text-brand-muted py-6 text-center italic">No recent submission entries recorded.</p>
+                  <p className="text-xs text-brand-muted py-6 text-center italic">
+                    No recent submission entries recorded.
+                  </p>
                 ) : (
                   analytics.data.recentResponses.map((response: any) => (
                     <div
@@ -264,16 +287,18 @@ export default function DashboardPage() {
                     className="w-full premium-search-field rounded-xl px-4 py-2 text-xs font-medium"
                   />
                 </div>
-              </div> 
+              </div>
 
               <div className="grid gap-3">
                 {filteredForms.length === 0 ? (
                   <div className="text-center py-12 border border-dashed border-brand-border/60 rounded-xl bg-workspace/20">
-                    <p className="text-xs text-brand-muted">No form layouts match your search filter criteria.</p>
+                    <p className="text-xs text-brand-muted">
+                      No form layouts match your search filter criteria.
+                    </p>
                   </div>
                 ) : (
                   filteredForms.map((form) => {
-                    const isProcessing = 
+                    const isProcessing =
                       (publish.status === "pending" && publish.variables?.formId === form.id) ||
                       (unpublish.status === "pending" && unpublish.variables?.formId === form.id);
 
@@ -309,6 +334,13 @@ export default function DashboardPage() {
 
                           {/* INTERACTION ACTION BUTTONS */}
                           <div className="flex flex-wrap gap-2 items-center sm:justify-end font-semibold text-xs">
+                            <Link
+                              href={`/responses?formId=${form.id}`}
+                              className="border border-brand-border/80 bg-canvas px-3.5 py-2 rounded-xl text-[#034F46] hover:bg-[#034F46]/5 transition-all shadow-sm"
+                            >
+                              Responses
+                            </Link>
+
                             <Link
                               href={`/form/${form.id}/builder`}
                               className="border border-brand-border/80 bg-canvas px-3.5 py-2 rounded-xl text-brand-muted hover:text-brand-text hover:border-brand-text/60 transition-all shadow-sm"
@@ -354,7 +386,6 @@ export default function DashboardPage() {
                 )}
               </div>
             </div>
-
           </div>
         </div>
       </div>
