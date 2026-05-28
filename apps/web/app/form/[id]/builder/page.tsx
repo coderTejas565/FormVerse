@@ -114,27 +114,97 @@ export default function FormBuilderPage() {
 
   return (
     <>
-      <style jsx global>{`
-        .premium-input-style {
-          background-color: rgba(3, 79, 70, 0.06) !important;
-          border: 1px solid rgba(3, 79, 70, 0.2) !important;
-          color: #E6EEDB !important;-webkit-text-fill-color: #E6EEDB !important;caret-color: #E6EEDB !important;
-          outline: none !important;
-          transition: all 0.2s ease !important;
-        }
-        .premium-input-style:hover {
-          background-color: rgba(3, 79, 70, 0.09) !important;
-          border-color: rgba(3, 79, 70, 0.35) !important;
-        }
-        .premium-input-style:focus {
-          background-color: transparent !important;
-          border-color: #034f46 !important;
-          box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.15) !important;
-        }
-        .premium-input-style::placeholder {
-          color: rgba(255, 255, 255, 0.35) !important;
-        }
-      `}</style>
+<style jsx global>{`
+  .premium-input-style {
+    width: 100% !important;
+
+    background-color: rgba(3, 79, 70, 0.06) !important;
+
+    border: 1px solid rgba(3, 79, 70, 0.2) !important;
+
+    border-radius: 0.75rem !important;
+
+    padding: 0.75rem 1rem !important;
+
+    font-size: 0.8125rem !important;
+
+    font-weight: 500 !important;
+
+    /* FINAL TEXT FIX */
+    color: #111827 !important;
+
+    caret-color: #111827 !important;
+
+    -webkit-text-fill-color: #111827 !important;
+
+    outline: none !important;
+
+    transition: all 0.2s ease !important;
+  }
+
+  .premium-input-style:hover {
+    background-color: rgba(3, 79, 70, 0.09) !important;
+
+    border-color: rgba(3, 79, 70, 0.35) !important;
+  }
+
+  .premium-input-style:focus {
+    background-color: rgba(3, 79, 70, 0.02) !important;
+
+    border-color: #034f46 !important;
+
+    box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.15) !important;
+
+    color: #111827 !important;
+
+    -webkit-text-fill-color: #111827 !important;
+  }
+
+  /* PLACEHOLDER FIX */
+  .premium-input-style::placeholder {
+    color: rgba(17, 24, 39, 0.45) !important;
+
+    -webkit-text-fill-color: rgba(
+      17,
+      24,
+      39,
+      0.45
+    ) !important;
+
+    opacity: 1 !important;
+  }
+
+  /* SELECT OPTION FIX */
+  .premium-input-style option {
+    color: #111827 !important;
+
+    background-color: #ffffff !important;
+  }
+
+  /* FORCE INPUT TEXT COLOR */
+  input.premium-input-style,
+  textarea.premium-input-style,
+  select.premium-input-style {
+    color: #111827 !important;
+
+    -webkit-text-fill-color: #111827 !important;
+
+    caret-color: #111827 !important;
+  }
+
+  /* AUTOFILL FIX */
+  input.premium-input-style:-webkit-autofill,
+  input.premium-input-style:-webkit-autofill:hover,
+  input.premium-input-style:-webkit-autofill:focus,
+  textarea.premium-input-style:-webkit-autofill,
+  select.premium-input-style:-webkit-autofill {
+    -webkit-text-fill-color: #111827 !important;
+
+    box-shadow: 0 0 0px 1000px transparent inset !important;
+
+    transition: background-color 9999s ease-in-out 0s;
+  }
+`}</style>
 
       <div className="min-h-screen bg-workspace p-4 md:p-8 lg:p-12 text-brand-text antialiased font-sans">
         <div className="max-w-7xl mx-auto space-y-6">
