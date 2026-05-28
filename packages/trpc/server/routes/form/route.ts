@@ -26,10 +26,23 @@ import {
   submitFormOutput,
 } from "./model";
 
+import { generatePath } from "../../utils/path-generator";
+
+
+const TAGS = ["Forms"];
+const getPath = generatePath("/forms");
+
 import { checkRateLimit } from "../../utils/rate-limit";
 
 export const formRouter = router({
   createForm: protectedProcedure
+      .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/create"),
+        tags: TAGS,
+      },
+    })
     .input(createFormInput)
     .output(createFormOutput)
     .mutation(async ({ ctx, input }) => {
@@ -59,6 +72,14 @@ export const formRouter = router({
     }),
 
   addField: protectedProcedure
+      .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/add-field"),
+        tags: TAGS,
+      },
+    })
+
     .input(addFormFieldInput)
     .output(addFormFieldOutput)
     .mutation(async ({ ctx, input }) => {
@@ -104,6 +125,13 @@ export const formRouter = router({
     }),
 
   getForm: publicProcedure
+      .meta({
+      openapi: {
+        method: "GET",
+        path: getPath("/get"),
+        tags: TAGS,
+      },
+    })
     .input(getFormInput)
     .output(getFormOutput)
     .query(async ({ input }) => {
@@ -139,11 +167,26 @@ export const formRouter = router({
       };
     }),
 
-  getMyForms: protectedProcedure.output(getMyFormsOutput).query(async ({ ctx }) => {
+  getMyForms: protectedProcedure
+      .meta({
+      openapi: {
+        method: "GET",
+        path: getPath("/my-forms"),
+        tags: TAGS,
+      },
+    })
+  .output(getMyFormsOutput).query(async ({ ctx }) => {
     return await db.select().from(formsTable).where(eq(formsTable.creatorId, ctx.user.id));
   }),
 
   submitForm: publicProcedure
+      .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/submit"),
+        tags: TAGS,
+      },
+    })
     .input(submitFormInput)
     .output(submitFormOutput)
     .mutation(async ({ input, ctx }) => {
@@ -205,7 +248,15 @@ export const formRouter = router({
       };
     }),
 
-  analytics: protectedProcedure.output(analyticsOutput).query(async ({ ctx }) => {
+  analytics: protectedProcedure
+      .meta({
+      openapi: {
+        method: "GET",
+        path: getPath("/analytics"),
+        tags: TAGS,
+      },
+    })
+  .output(analyticsOutput).query(async ({ ctx }) => {
     const forms = await db.select().from(formsTable).where(eq(formsTable.creatorId, ctx.user.id));
 
     const totalResponses = await db
@@ -230,6 +281,13 @@ export const formRouter = router({
   }),
 
   publishForm: protectedProcedure
+      .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/publish"),
+        tags: TAGS,
+      },
+    })
     .input(publishFormInput)
     .output(publishFormOutput)
     .mutation(async ({ ctx, input }) => {
@@ -258,6 +316,13 @@ export const formRouter = router({
     }),
 
   unpublishForm: protectedProcedure
+      .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/unpublish"),
+        tags: TAGS,
+      },
+    })
     .input(publishFormInput)
     .output(publishFormOutput)
     .mutation(async ({ ctx, input }) => {
@@ -284,7 +349,15 @@ export const formRouter = router({
       };
     }),
 
-  exploreForms: publicProcedure.query(async () => {
+  exploreForms: publicProcedure
+      .meta({
+      openapi: {
+        method: "GET",
+        path: getPath("/explore"),
+        tags: TAGS,
+      },
+    })
+  .query(async () => {
     return await db
       .select({
         id: formsTable.id,
@@ -297,7 +370,15 @@ export const formRouter = router({
       .orderBy(desc(formsTable.createdAt));
   }),
 
-  getResponses: protectedProcedure.output(getResponsesOutput).query(async ({ ctx }) => {
+  getResponses: protectedProcedure
+      .meta({
+      openapi: {
+        method: "GET",
+        path: getPath("/responses"),
+        tags: TAGS,
+      },
+    })
+  .output(getResponsesOutput).query(async ({ ctx }) => {
     // Step 1: Get all forms created by user
     const forms = await db
       .select({ id: formsTable.id })
@@ -369,6 +450,13 @@ export const formRouter = router({
   }),
 
   getMyForm: protectedProcedure
+      .meta({
+      openapi: {
+        method: "GET",
+        path: getPath("/my-form"),
+        tags: TAGS,
+      },
+    })
   .input(getMyFormInput)
   .output(getMyFormOutput)
   .query(async ({ ctx, input }) => {

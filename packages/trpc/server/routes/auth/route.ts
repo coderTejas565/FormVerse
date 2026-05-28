@@ -1,8 +1,4 @@
 import {
-  createUserWithEmailAndPasswordInput,
-  signInUserEmailAndPasswordInput,
-} from "@repo/services/user/model";
-import {
   createUserWithEmailAndPasswordInputModel,
   createUserWithEmailAndPasswordOutputModel,
   signUserWithEmailAndPasswordInputModel,
