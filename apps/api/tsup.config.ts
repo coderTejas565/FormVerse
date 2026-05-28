@@ -1,17 +1,25 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["./src/index.ts"],
-  outDir: "dist",
-  clean: true,
-
-  bundle: true,
+  entry: ["src/index.ts"],
   splitting: false,
+  bundle: true,
+  clean: true,
+  minify: true,
   sourcemap: false,
-  minify: false,
+  outDir: "dist",
 
-  // IMPORTANT: keep monorepo imports working
   noExternal: [
-    "@repo/*",
+    "@repo/database",
+    "@repo/services",
+    "@repo/trpc"
   ],
+
+  loader: {
+    ".json": "copy",
+  },
+
+  env: {
+    IS_SERVER_BUILD: "true",
+  },
 });
