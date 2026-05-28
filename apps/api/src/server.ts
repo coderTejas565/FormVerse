@@ -17,10 +17,14 @@ const openApiDocument = generateOpenApiDocument(serverRouter, {
   baseUrl: `${env.BASE_URL}/api`,
 });
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://form-verse-web-nine.vercel.app",
+];
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://form-verse-web-nine.vercel.app/"],
-
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
