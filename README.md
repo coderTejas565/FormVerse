@@ -70,6 +70,9 @@ Password: password123
 ### Dashboard
 ![Dashboard](./assets/dashboard.png)
 
+### Create Form Page
+![Landing Page](./assets/createform.png)
+
 ### Form Builder
 ![Form Builder](./assets/form-builder.png)
 
