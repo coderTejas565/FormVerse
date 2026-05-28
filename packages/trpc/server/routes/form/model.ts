@@ -114,10 +114,6 @@ export const exploreFormsOutput = z.array(
   }),
 );
 
-export const getMyFormInput = getFormInput;
-
-export const getMyFormOutput = getFormOutput;
-
 export const getMyFormsOutput = z.array(
   z.object({
     id: z.string(),
@@ -155,3 +151,40 @@ export const getResponsesOutput = z.array(
     ),
   }),
 );
+
+
+export const getMyFormInput = z.object({
+  formId: z.string(),
+});
+
+export const getMyFormOutput = z.object({
+  form: z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    visibility: z.enum(["PUBLIC", "UNLISTED"]),
+    isPublished: z.boolean().nullable(),
+    creatorId: z.string(),
+    createdAt: z.date().nullable(),
+    updatedAt: z.date().nullable(),
+  }),
+
+  fields: z.array(
+    z.object({
+      id: z.string(),
+      formId: z.string(),
+      label: z.string(),
+      type: z.enum([
+        "TEXT",
+        "EMAIL",
+        "NUMBER",
+        "TEXTAREA",
+        "SELECT",
+        "MULTISELECT",
+      ]),
+      required: z.boolean().nullable(),
+      options: z.string().nullable(),
+      order: z.number().nullable(),
+    }),
+  ),
+});

@@ -12,14 +12,14 @@ export default function FormBuilderPage() {
 
   const utils = trpc.useUtils();
 
-  const { data, isLoading, isFetching, error } = trpc.form.getForm.useQuery(
+  const { data, isLoading, isFetching, error } = trpc.form.getMyForm.useQuery(
     { formId: id },
     { retry: false },
   );
 
   const addField = trpc.form.addField.useMutation({
     onSuccess() {
-      utils.form.getForm.invalidate({ formId: id });
+      utils.form.getMyForm.invalidate({ formId: id });
       setLabel("");
       setType("TEXT");
       setOptions("");
@@ -29,13 +29,13 @@ export default function FormBuilderPage() {
 
   const publish = trpc.form.publishForm.useMutation({
     onSuccess() {
-      utils.form.getForm.invalidate({ formId: id });
+      utils.form.getMyForm.invalidate({ formId: id });
     },
   });
 
   const unpublish = trpc.form.unpublishForm.useMutation({
     onSuccess() {
-      utils.form.getForm.invalidate({ formId: id });
+      utils.form.getMyForm.invalidate({ formId: id });
     },
   });
 

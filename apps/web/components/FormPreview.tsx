@@ -2,10 +2,19 @@
 
 interface Field {
   id: string;
-  type: "TEXT" | "EMAIL" | "NUMBER" | "TEXTAREA" | "SELECT";
+  type:
+    | "TEXT"
+    | "EMAIL"
+    | "NUMBER"
+    | "TEXTAREA"
+    | "SELECT"
+    | "MULTISELECT";
+
   label: string;
-  required?: boolean;
-  options?: any; // Kept as any because it might arrive as string, string[], or null
+
+  required?: boolean | null;
+
+  options?: string[] | string | null;
 }
 
 interface Props {
@@ -29,33 +38,36 @@ export function FormPreview({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     if (onSubmitAction) {
       onSubmitAction(values);
     } else {
-      alert("Form preview validation passed! Data: " + JSON.stringify(values, null, 2));
+      alert("Form preview validation passed!");
     }
   }
 
-  // Safely parse options into a string array regardless of how the database saves it
-  function getSafeOptions(options: any): string[] {
+  function getSafeOptions(options: string[] | string | null | undefined): string[] {
     if (!options) return [];
 
-    // Case 1: It is already a clean array
-    if (Array.isArray(options)) return options;
+    if (Array.isArray(options)) {
+      return options;
+    }
 
-    // Case 2: It is a string
     if (typeof options === "string") {
       const trimmed = options.trim();
-      // Check if it's a stringified JSON array: e.g. '["a", "b"]'
+
       if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
         try {
           const parsed = JSON.parse(trimmed);
-          if (Array.isArray(parsed)) return parsed;
-        } catch (e) {
-          // Fall through if JSON parsing fails
+
+          if (Array.isArray(parsed)) {
+            return parsed;
+          }
+        } catch (err) {
+          console.error(err);
         }
       }
-      // Otherwise, treat it as a standard comma-separated string
+
       return trimmed
         .split(",")
         .map((o) => o.trim())
@@ -80,30 +92,33 @@ export function FormPreview({
       <style jsx global>{`
         .preview-input-element {
           width: 100% !important;
-          background-color: rgba(3, 79, 70, 0.06) !important;
+          background-color: rgba(255, 255, 255, 0.95) !important;
           border: 1px solid rgba(3, 79, 70, 0.2) !important;
           border-radius: 0.75rem !important;
           padding: 0.75rem 1rem !important;
           font-size: 0.8125rem !important;
-          /* CHANGED: Text color forced to dark slate for crystal clear contrast */
+
           color: #111827 !important;
+
           font-weight: 500 !important;
           outline: none !important;
           transition: all 0.2s ease !important;
         }
+
         .preview-input-element:hover {
-          background-color: rgba(3, 79, 70, 0.09) !important;
           border-color: rgba(3, 79, 70, 0.35) !important;
         }
+
         .preview-input-element:focus {
           background-color: #ffffff !important;
           border-color: #034f46 !important;
           box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.15) !important;
         }
+
         .preview-input-element::placeholder {
-          color: rgba(17, 24, 39, 0.4) !important;
+          color: rgba(17, 24, 39, 0.45) !important;
         }
-        /* Style the actual list items inside the dropdown dropdown */
+
         .preview-select-option {
           color: #111827 !important;
           background-color: #ffffff !important;
@@ -112,83 +127,126 @@ export function FormPreview({
 
       <form onSubmit={handleSubmit} className="space-y-5 w-full">
         <div className="flex flex-col gap-4">
-          {fields.map((field) => {
-            return (
-              <div key={field.id} className="space-y-1.5 w-full">
-                <label className="block text-xs font-semibold tracking-wide text-brand-text opacity-90">
-                  {field.label}
-                  {field.required && <span className="text-red-500 ml-1">*</span>}
-                </label>
+          {fields.map((field) => (
+            <div key={field.id} className="space-y-1.5 w-full">
+              <label className="block text-xs font-semibold tracking-wide text-brand-text opacity-90">
+                {field.label}
 
-                {field.type === "TEXT" && (
-                  <input
-                    type="text"
-                    required={field.required}
-                    placeholder={`Enter ${field.label.toLowerCase()}...`}
+                {field.required && <span className="text-red-500 ml-1">*</span>}
+              </label>
+
+              {field.type === "TEXT" && (
+                <input
+                  type="text"
+                  required={field.required ?? false}
+                  placeholder={`Enter ${field.label.toLowerCase()}...`}
+                  value={values[field.id] ?? ""}
+                  onChange={(e) => update(field.id, e.target.value)}
+                  className="preview-input-element font-sans"
+                />
+              )}
+
+              {field.type === "EMAIL" && (
+                <input
+                  type="email"
+                  required={field.required ?? false}
+                  placeholder="name@domain.com"
+                  value={values[field.id] ?? ""}
+                  onChange={(e) => update(field.id, e.target.value)}
+                  className="preview-input-element font-sans"
+                />
+              )}
+
+              {field.type === "NUMBER" && (
+                <input
+                  type="number"
+                  required={field.required ?? false}
+                  placeholder="0"
+                  value={values[field.id] ?? ""}
+                  onChange={(e) => update(field.id, e.target.value)}
+                  className="preview-input-element font-sans"
+                />
+              )}
+
+              {field.type === "TEXTAREA" && (
+                <textarea
+                  required={field.required ?? false}
+                  placeholder="Type your response..."
+                  rows={4}
+                  value={values[field.id] ?? ""}
+                  onChange={(e) => update(field.id, e.target.value)}
+                  className="preview-input-element font-sans resize-none"
+                />
+              )}
+
+              {field.type === "SELECT" && (
+                <div className="relative w-full">
+                  <select
+                    required={field.required ?? false}
                     value={values[field.id] ?? ""}
                     onChange={(e) => update(field.id, e.target.value)}
-                    className="preview-input-element font-sans"
-                  />
-                )}
+                    className="preview-input-element font-sans appearance-none cursor-pointer pr-10"
+                  >
+                    <option value="" disabled className="preview-select-option">
+                      Choose an option...
+                    </option>
 
-                {field.type === "EMAIL" && (
-                  <input
-                    type="email"
-                    required={field.required}
-                    placeholder="name@domain.com"
-                    value={values[field.id] ?? ""}
-                    onChange={(e) => update(field.id, e.target.value)}
-                    className="preview-input-element font-sans"
-                  />
-                )}
-
-                {field.type === "NUMBER" && (
-                  <input
-                    type="number"
-                    required={field.required}
-                    placeholder="0"
-                    value={values[field.id] ?? ""}
-                    onChange={(e) => update(field.id, e.target.value)}
-                    className="preview-input-element font-sans"
-                  />
-                )}
-
-                {field.type === "TEXTAREA" && (
-                  <textarea
-                    required={field.required}
-                    placeholder="Type your response summary..."
-                    rows={4}
-                    value={values[field.id] ?? ""}
-                    onChange={(e) => update(field.id, e.target.value)}
-                    className="preview-input-element font-sans resize-none"
-                  />
-                )}
-
-                {field.type === "SELECT" && (
-                  <div className="relative w-full">
-                    <select
-                      required={field.required}
-                      value={values[field.id] ?? ""}
-                      onChange={(e) => update(field.id, e.target.value)}
-                      className="preview-input-element font-sans appearance-none cursor-pointer pr-10"
-                    >
-                      <option value="" disabled className="preview-select-option text-brand-muted">
-                        Choose an item choice...
+                    {getSafeOptions(field.options).map((option, index) => (
+                      <option
+                        key={index}
+                        value={option}
+                        className="preview-select-option"
+                      >
+                        {option}
                       </option>
-                      {getSafeOptions(field.options).map((option, index) => (
-                        <option key={index} value={option} className="preview-select-option">
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-brand-muted text-[10px]">
-                      ▼
-                    </div>
+                    ))}
+                  </select>
+
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-brand-muted text-[10px]">
+                    ▼
                   </div>
-                )}
-              </div>
-            );
-          })}
+                </div>
+              )}
+
+              {field.type === "MULTISELECT" && (
+                <div className="space-y-2 pt-1">
+{getSafeOptions(field.options).map((option, index) => {
+  const currentValues = (values[field.id] ?? "")
+    .split(",")
+    .filter(Boolean);
+
+  const checked = currentValues.includes(option);
+
+  return (
+    <label
+      key={index}
+      className="flex items-center gap-2 text-sm text-brand-text"
+    >
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => {
+          let updatedValues = [...currentValues];
+
+          if (e.target.checked) {
+            updatedValues.push(option);
+          } else {
+            updatedValues = updatedValues.filter((v) => v !== option);
+          }
+
+          update(field.id, updatedValues.join(","));
+        }}
+        className="accent-[#034F46] h-4 w-4"
+      />
+
+      <span>{option}</span>
+    </label>
+  );
+})}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
 
         <div className="pt-4 border-t border-brand-border/20">

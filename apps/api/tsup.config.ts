@@ -15,10 +15,5 @@ export default defineConfig({
 
   bundle: true,
 
-  noExternal: [
-    "@repo/logger",
-    "@repo/trpc",
-    "@repo/database",
-    "@repo/services",
-  ],
+  noExternal: ["@repo/logger", "@repo/trpc", "@repo/database", "@repo/services"],
 });

@@ -367,4 +367,40 @@ export const formRouter = router({
 
     return grouped;
   }),
+
+  getMyForm: protectedProcedure
+  .input(getMyFormInput)
+  .output(getMyFormOutput)
+  .query(async ({ ctx, input }) => {
+
+    const form = await db
+      .select()
+      .from(formsTable)
+      .where(
+        and(
+          eq(formsTable.id, input.formId),
+          eq(formsTable.creatorId, ctx.user.id)
+        )
+      )
+      .limit(1);
+
+    const currentForm = form[0];
+
+    if (!currentForm) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+      });
+    }
+
+    const fields = await db
+      .select()
+      .from(formFieldsTable)
+      .where(eq(formFieldsTable.formId, input.formId))
+      .orderBy(formFieldsTable.order);
+
+    return {
+      form: currentForm,
+      fields,
+    };
+  }),
 });
