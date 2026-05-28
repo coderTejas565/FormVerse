@@ -350,13 +350,14 @@ export const formRouter = router({
     }),
 
   exploreForms: publicProcedure
-      .meta({
-      openapi: {
-        method: "GET",
-        path: getPath("/explore"),
-        tags: TAGS,
-      },
-    })
+  .meta({
+    openapi: {
+      method: "GET",
+      path: getPath("/explore"),
+      tags: TAGS,
+    },
+  })
+  .output(exploreFormsOutput)
   .query(async () => {
     return await db
       .select({
