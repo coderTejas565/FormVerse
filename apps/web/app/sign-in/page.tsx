@@ -32,18 +32,21 @@ export default function SignInPage() {
     <>
       {/* BRAND-ALIGNED INPUT SYSTEM OVERRIDES */}
       <style jsx global>{`
-        .premium-auth-mesh input[type="email"],
-        .premium-auth-mesh input[type="password"] {
-          width: 100% !important;
-          background-color: rgba(3, 79, 70, 0.08) !important;
-          border: 1px solid rgba(3, 79, 70, 0.25) !important;
-          border-radius: 0.75rem !important;
-          padding: 0.875rem 1rem !important;
-          font-size: 0.8125rem !important;
-          color: var(--brand-text, #ffffff) !important;
-          outline: none !important;
-          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        }
+.premium-auth-mesh input[type="email"],
+.premium-auth-mesh input[type="password"] {
+  width: 100% !important;
+  background-color: rgba(3, 79, 70, 0.08) !important;
+  border: 1px solid rgba(3, 79, 70, 0.25) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.875rem 1rem !important;
+  font-size: 0.8125rem !important;
+
+  color: #E6EEDB !important;
+  -webkit-text-fill-color: #E6EEDB !important;
+  caret-color: #E6EEDB !important;
+
+  outline: none !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 
         .premium-auth-mesh input:hover {
           background-color: rgba(3, 79, 70, 0.12) !important;

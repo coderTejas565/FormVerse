@@ -41,7 +41,9 @@ export default function SignupPage() {
           border-radius: 0.75rem !important;
           padding: 0.875rem 1rem !important;
           font-size: 0.8125rem !important;
-          color: var(--brand-text, #ffffff) !important;
+          color: #E6EEDB !important;
+          -webkit-text-fill-color: #E6EEDB !important;
+          caret-color: #E6EEDB !important;
           outline: none !important;
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }

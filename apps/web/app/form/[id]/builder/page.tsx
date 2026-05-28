@@ -118,7 +118,7 @@ export default function FormBuilderPage() {
         .premium-input-style {
           background-color: rgba(3, 79, 70, 0.06) !important;
           border: 1px solid rgba(3, 79, 70, 0.2) !important;
-          color: var(--brand-text, #ffffff) !important;
+          color: #E6EEDB !important;-webkit-text-fill-color: #E6EEDB !important;caret-color: #E6EEDB !important;
           outline: none !important;
           transition: all 0.2s ease !important;
         }
