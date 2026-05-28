@@ -132,67 +132,73 @@ export default function LandingPage() {
       />
 
       {/* 1. NAVIGATION BAR */}
-      <nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#0a1210]/70 border-b border-[#034F46]/20 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between">
-          <div className="flex items-center gap-10">
-            {/* Logo Brand Anchor */}
-            <div
-              className="flex items-center gap-2.5 group cursor-pointer"
-              onClick={() => router.push("/")}
-            >
-              <div className="w-3.5 h-3.5 rounded bg-gradient-to-br from-emerald-400 to-[#034F46] transition-all duration-500 group-hover:rotate-180 group-hover:scale-125 shadow-[0_0_15px_rgba(52,211,153,0.3)] group-hover:shadow-[0_0_25px_rgba(52,211,153,0.6)]" />
-              <span className="font-serif italic font-bold text-xl md:text-2xl tracking-tight text-white group-hover:text-emerald-400 transition-colors duration-300">
-                FormVerse
-              </span>
-            </div>
+<nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#0a1210]/70 border-b border-[#034F46]/20 transition-all duration-300">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 grid grid-cols-3 items-center">
 
-            {/* Desktop Link Layout Array */}
-            <div className="hidden md:flex items-center gap-8 font-mono text-[11px] tracking-widest uppercase text-[#f0f5eb]/60">
-              <a
-                href="#features"
-                className="hover:text-emerald-400 transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-emerald-400 hover:after:w-full after:transition-all after:duration-300"
-              >
-                Explore
-              </a>
-              <a
-                href="#templates"
-                className="hover:text-emerald-400 transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-emerald-400 hover:after:w-full after:transition-all after:duration-300"
-              >
-                Blueprints
-              </a>
-              <a
-                href="#pricing"
-                className="hover:text-emerald-400 transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-emerald-400 hover:after:w-full after:transition-all after:duration-300"
-              >
-                Pricing
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-emerald-400 transition-colors duration-200 hover:scale-105 transform transition-transform"
-              >
-                Github
-              </a>
-            </div>
-          </div>
+    {/* LEFT: Logo ONLY */}
+    <div className="flex items-center justify-start">
+      <div
+        className="flex items-center gap-2.5 group cursor-pointer"
+        onClick={() => router.push("/")}
+      >
+        <div className="w-3.5 h-3.5 rounded bg-gradient-to-br from-emerald-400 to-[#034F46] transition-all duration-500 group-hover:rotate-180 group-hover:scale-125 shadow-[0_0_15px_rgba(52,211,153,0.3)] group-hover:shadow-[0_0_25px_rgba(52,211,153,0.6)]" />
 
-          {/* Desktop Authentication Call-To-Actions */}
-          <div className="hidden md:flex items-center gap-4 font-mono text-[11px] uppercase tracking-wider">
-            <button
-              onClick={() => router.push("/sign-in")}
-              className="px-4 py-2 text-[#f0f5eb]/70 hover:text-white transition-colors duration-200 hover:translate-y-[-1px] transform"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => router.push("/sign-up")}
-              className="relative group overflow-hidden bg-gradient-to-r from-[#034F46] to-[#046e61] text-white font-medium rounded-lg px-5 py-2.5 transition-all duration-300 hover:shadow-[0_0_25px_rgba(3,79,70,0.6)] active:scale-[0.97] hover:scale-[1.02] transform"
-            >
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-emerald-500 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out -z-10" />
-              <span className="relative z-10">Start Building</span>
-            </button>
-          </div>
+        <span className="font-serif italic font-bold text-xl md:text-2xl tracking-tight text-white group-hover:text-emerald-400 transition-colors duration-300">
+          FormVerse
+        </span>
+      </div>
+    </div>
+
+    {/* CENTER: Navigation Links ONLY */}
+    <div className="hidden md:flex items-center justify-center gap-8 font-mono text-[11px] tracking-widest uppercase text-[#f0f5eb]/60">
+      <a
+        href="#features"
+        className="hover:text-emerald-400 transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-emerald-400 hover:after:w-full after:transition-all after:duration-300"
+      >
+        Explore
+      </a>
+
+      <a
+        href="#templates"
+        className="hover:text-emerald-400 transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-emerald-400 hover:after:w-full after:transition-all after:duration-300"
+      >
+        Blueprints
+      </a>
+
+      <a
+        href="#pricing"
+        className="hover:text-emerald-400 transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-emerald-400 hover:after:w-full after:transition-all after:duration-300"
+      >
+        Pricing
+      </a>
+
+      <a
+        href="https://github.com"
+        target="_blank"
+        rel="noreferrer"
+        className="hover:text-emerald-400 transition-colors duration-200 hover:scale-105 transform transition-transform"
+      >
+        Github
+      </a>
+    </div>
+
+    {/* RIGHT: Auth ONLY */}
+    <div className="hidden md:flex items-center justify-end gap-4 font-mono text-[11px] tracking-widest uppercase text-[#f0f5eb]/60">
+      <button
+        onClick={() => router.push("/sign-in")}
+        className="px-4 py-2 text-[#f0f5eb]/70 hover:text-white transition-colors duration-200 hover:translate-y-[-1px] transform"
+      >
+        Login
+      </button>
+
+      <button
+        onClick={() => router.push("/sign-up")}
+        className="relative group overflow-hidden bg-gradient-to-r from-[#034F46] to-[#046e61] text-white font-medium rounded-lg px-5 py-2.5 transition-all duration-300 hover:shadow-[0_0_25px_rgba(3,79,70,0.6)] active:scale-[0.97] hover:scale-[1.02] transform"
+      >
+        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-emerald-500 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out -z-10" />
+        <span className="relative z-10">Start Building</span>
+      </button>
+    </div>
 
           {/* Mobile Menu Action Toggle Button */}
           <button
