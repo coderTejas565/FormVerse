@@ -89,41 +89,65 @@ export function FormPreview({
 
   return (
     <>
-      <style jsx global>{`
-        .preview-input-element {
-          width: 100% !important;
-          background-color: rgba(255, 255, 255, 0.95) !important;
-          border: 1px solid rgba(3, 79, 70, 0.2) !important;
-          border-radius: 0.75rem !important;
-          padding: 0.75rem 1rem !important;
-          font-size: 0.8125rem !important;
+<style jsx global>{`
+  .preview-input-element {
+    width: 100% !important;
+    background-color: #ffffff !important;
 
-          color: #111827 !important;
+    border: 1px solid rgba(3, 79, 70, 0.2) !important;
+    border-radius: 0.75rem !important;
 
-          font-weight: 500 !important;
-          outline: none !important;
-          transition: all 0.2s ease !important;
-        }
+    padding: 0.75rem 1rem !important;
 
-        .preview-input-element:hover {
-          border-color: rgba(3, 79, 70, 0.35) !important;
-        }
+    font-size: 0.8125rem !important;
+    font-weight: 500 !important;
 
-        .preview-input-element:focus {
-          background-color: #ffffff !important;
-          border-color: #034f46 !important;
-          box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.15) !important;
-        }
+    color: #111827 !important;
+    caret-color: #111827 !important;
 
-        .preview-input-element::placeholder {
-          color: rgba(17, 24, 39, 0.45) !important;
-        }
+    outline: none !important;
+    transition: all 0.2s ease !important;
 
-        .preview-select-option {
-          color: #111827 !important;
-          background-color: #ffffff !important;
-        }
-      `}</style>
+    -webkit-text-fill-color: #111827 !important;
+  }
+
+  .preview-input-element:hover {
+    border-color: rgba(3, 79, 70, 0.35) !important;
+  }
+
+  .preview-input-element:focus {
+    background-color: #ffffff !important;
+
+    border-color: #034f46 !important;
+
+    box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.15) !important;
+  }
+
+  .preview-input-element::placeholder {
+    color: rgba(17, 24, 39, 0.45) !important;
+  }
+
+  .preview-input-element option {
+    color: #111827 !important;
+    background: #ffffff !important;
+  }
+
+  textarea.preview-input-element,
+  input.preview-input-element,
+  select.preview-input-element {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: #111827 !important;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+`}</style>
 
       <form onSubmit={handleSubmit} className="space-y-5 w-full">
         <div className="flex flex-col gap-4">
