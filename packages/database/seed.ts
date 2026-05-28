@@ -4,23 +4,32 @@ import { formsTable } from "./models/forms";
 import { formFieldsTable } from "./models/formFields";
 import { responsesTable } from "./models/responses";
 import { answersTable } from "./models/answers";
-
-import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 async function seed() {
   console.log("Seeding database...");
 
-  const hashedPassword = await bcrypt.hash("password123", 10);
+const salt = crypto.randomBytes(16).toString("hex");
 
-  const [user] = await db
-    .insert(usersTable)
-    .values({
-      email: "demo@test.com",
-      password: hashedPassword,
-      fullName: "Demo User",
-    })
-    .onConflictDoNothing()
-    .returning();
+function generateHash(salt: string, password: string) {
+  return crypto
+    .createHmac("sha256", salt)
+    .update(password)
+    .digest("hex");
+}
+
+const hashedPassword = generateHash(salt, "password123");
+
+const [user] = await db
+  .insert(usersTable)
+  .values({
+    email: "demo@test.com",
+    password: hashedPassword,
+    salt: salt,
+    fullName: "Demo User",
+  })
+  .onConflictDoNothing()
+  .returning();
 
   if (!user) {
     console.log("User already exists, skipping seed...");
