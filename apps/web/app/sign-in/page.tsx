@@ -31,40 +31,64 @@ export default function SignInPage() {
   return (
     <>
       {/* BRAND-ALIGNED INPUT SYSTEM OVERRIDES */}
-      <style jsx global>{`
-.premium-auth-mesh input[type="email"],
-.premium-auth-mesh input[type="password"] {
-  width: 100% !important;
-  background-color: rgba(3, 79, 70, 0.08) !important;
-  border: 1px solid rgba(3, 79, 70, 0.25) !important;
-  border-radius: 0.75rem !important;
-  padding: 0.875rem 1rem !important;
-  font-size: 0.8125rem !important;
+<style jsx global>{`
+  .premium-auth-input {
+    width: 100% !important;
 
-  color: #E6EEDB !important;
-  -webkit-text-fill-color: #E6EEDB !important;
-  caret-color: #E6EEDB !important;
+    background-color: rgba(3, 79, 70, 0.08) !important;
 
-  outline: none !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border: 1px solid rgba(3, 79, 70, 0.25) !important;
 
-        .premium-auth-mesh input:hover {
-          background-color: rgba(3, 79, 70, 0.12) !important;
-          border-color: rgba(3, 79, 70, 0.45) !important;
-        }
+    border-radius: 0.75rem !important;
 
-        .premium-auth-mesh input:focus {
-          background-color: rgba(3, 79, 70, 0.04) !important;
-          border-color: #034f46 !important;
-          box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.2) !important;
-        }
+    padding: 0.875rem 1rem !important;
 
-        /* HIGH VISIBILITY PLACEHOLDER OVERRIDES */
-        .premium-auth-mesh input::placeholder {
-          color: rgba(255, 255, 255, 0.4) !important;
-          opacity: 1 !important;
-        }
-      `}</style>
+    font-size: 0.8125rem !important;
+
+    color: #111827 !important;
+    caret-color: #111827 !important;
+
+    -webkit-text-fill-color: #111827 !important;
+
+    outline: none !important;
+
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .premium-auth-input:hover {
+    background-color: rgba(3, 79, 70, 0.12) !important;
+
+    border-color: rgba(3, 79, 70, 0.45) !important;
+  }
+
+  .premium-auth-input:focus {
+    background-color: rgba(3, 79, 70, 0.04) !important;
+
+    border-color: #034f46 !important;
+
+    box-shadow: 0 0 0 3px rgba(3, 79, 70, 0.2) !important;
+
+    color: #111827 !important;
+
+    -webkit-text-fill-color: #111827 !important;
+  }
+
+  .premium-auth-input::placeholder {
+    color: rgba(17, 24, 39, 0.45) !important;
+
+    -webkit-text-fill-color: rgba(17, 24, 39, 0.45) !important;
+  }
+
+  input.premium-auth-input:-webkit-autofill,
+  input.premium-auth-input:-webkit-autofill:hover,
+  input.premium-auth-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #111827 !important;
+
+    box-shadow: 0 0 0px 1000px rgba(3, 79, 70, 0.08) inset !important;
+
+    transition: background-color 9999s ease-in-out 0s;
+  }
+`}</style>
 
       <div className="min-h-screen bg-workspace flex items-center justify-center p-4 antialiased font-sans text-brand-text">
         <div className="w-full max-w-md my-auto space-y-6">
@@ -89,35 +113,36 @@ export default function SignInPage() {
 
               <hr className="border-brand-border/40" />
 
-              {/* EMAIL FIELD */}
-              <div className="space-y-2">
-                <label className="block text-xs font-semibold tracking-wide text-brand-text opacity-90">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="name@domain.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="font-sans"
-                />
-              </div>
+<div className="space-y-2">
+  <label className="block text-xs font-semibold tracking-wide text-brand-text opacity-90">
+    Email Address
+  </label>
 
-              {/* PASSWORD FIELD */}
-              <div className="space-y-2">
-                <label className="block text-xs font-semibold tracking-wide text-brand-text opacity-90">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  required
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="font-sans"
-                />
-              </div>
+  <input
+    type="email"
+    required
+    placeholder="tejas_dev@gmail.com"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    className="premium-auth-input font-sans"
+  />
+</div>
+
+{/* PASSWORD FIELD */}
+<div className="space-y-2">
+  <label className="block text-xs font-semibold tracking-wide text-brand-text opacity-90">
+    Password
+  </label>
+
+  <input
+    type="password"
+    required
+    placeholder="••••••••"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className="premium-auth-input font-sans"
+  />
+</div>
 
               {/* ACTION TRIGGER */}
               <div className="pt-2">
