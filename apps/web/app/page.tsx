@@ -601,7 +601,7 @@ export default function LandingPage() {
                 "Includes 8 fields • Webhook Trigger Nodes"}
             </div>
             <button
-              onClick={() => router.push("/sign-up")}
+              onClick={() => router.push("/explore")}
               className="font-mono text-[11px] uppercase text-emerald-400 hover:text-emerald-300 tracking-wider font-bold transition-all duration-300 flex items-center gap-1 self-start sm:self-auto group/btn"
             >
               Instantiate Object{" "}
