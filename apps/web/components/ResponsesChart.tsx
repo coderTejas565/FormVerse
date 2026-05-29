@@ -42,14 +42,15 @@ export default function ResponsesChart({ data }: ResponsesChartProps) {
           {/* Subtle grid lines matching the layout style */}
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(3, 79, 70, 0.08)" />
 
-          <XAxis
-            dataKey="date"
-            tickLine={false}
-            axisLine={false}
-            stroke="#888888"
-            tick={{ fontSize: 10 }}
-            dy={8}
-          />
+<XAxis
+  dataKey="date"
+  interval="preserveStartEnd"
+  tickLine={false}
+  axisLine={false}
+  stroke="#888888"
+  tick={{ fontSize: 10 }}
+  dy={8}
+/>
 
           <YAxis
             allowDecimals={false}

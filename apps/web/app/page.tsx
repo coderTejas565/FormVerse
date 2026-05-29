@@ -173,7 +173,7 @@ export default function LandingPage() {
       </a>
 
       <a
-        href="https://github.com"
+        href="https://github.com/coderTejas565/FormVerse.git"
         target="_blank"
         rel="noreferrer"
         className="hover:text-emerald-400 transition-colors duration-200 hover:scale-105 transform transition-transform"
@@ -245,7 +245,7 @@ export default function LandingPage() {
               Pricing
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/coderTejas565/FormVerse.git"
               target="_blank"
               rel="noreferrer"
               className="py-1 hover:text-emerald-400"
@@ -740,7 +740,7 @@ export default function LandingPage() {
               Pricing
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/coderTejas565/FormVerse.git"
               target="_blank"
               rel="noreferrer"
               className="hover:text-emerald-400 transition-colors duration-200"

@@ -1,5 +1,5 @@
 import { router, protectedProcedure, publicProcedure } from "../../trpc";
-import { db, eq, desc, count, and } from "@repo/database";
+import { db, eq, desc, count, and, sql } from "@repo/database";
 import { TRPCError } from "@trpc/server";
 
 import { formsTable } from "@repo/database/models/forms";
@@ -257,28 +257,74 @@ export const formRouter = router({
       },
     })
   .output(analyticsOutput).query(async ({ ctx }) => {
-    const forms = await db.select().from(formsTable).where(eq(formsTable.creatorId, ctx.user.id));
+  // USER FORMS
+  const forms = await db
+    .select()
+    .from(formsTable)
+    .where(eq(formsTable.creatorId, ctx.user.id));
 
-    const totalResponses = await db
-      .select({
-        count: count(),
-      })
-      .from(responsesTable)
-      .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
-      .where(eq(formsTable.creatorId, ctx.user.id));
+  // TOTAL RESPONSES
+  const totalResponses = await db
+    .select({
+      count: count(),
+    })
+    .from(responsesTable)
+    .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
+    .where(eq(formsTable.creatorId, ctx.user.id));
 
-    return {
-      totalForms: forms.length,
+  // RECENT FORMS
+  const recentForms = await db
+    .select({
+      id: formsTable.id,
+      title: formsTable.title,
+    })
+    .from(formsTable)
+    .where(eq(formsTable.creatorId, ctx.user.id))
+    .orderBy(desc(formsTable.createdAt))
+    .limit(5);
 
-      totalResponses: Number(totalResponses[0]?.count ?? 0),
+  // RECENT RESPONSES
+  const recentResponses = await db
+    .select({
+      responseId: responsesTable.id,
+      submittedAt: responsesTable.createdAt,
+      formTitle: formsTable.title,
+    })
+    .from(responsesTable)
+    .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
+    .where(eq(formsTable.creatorId, ctx.user.id))
+    .orderBy(desc(responsesTable.createdAt))
+    .limit(5);
 
-      recentForms: [],
+  // CHART DATA
+  const responsesOverTimeRaw = await db
+    .select({
+      date: sql<string>`DATE(${responsesTable.createdAt})`,
+      count: count(),
+    })
+    .from(responsesTable)
+    .innerJoin(formsTable, eq(responsesTable.formId, formsTable.id))
+    .where(eq(formsTable.creatorId, ctx.user.id))
+    .groupBy(sql`DATE(${responsesTable.createdAt})`)
+    .orderBy(sql`DATE(${responsesTable.createdAt})`);
 
-      recentResponses: [],
+  const responsesOverTime = responsesOverTimeRaw.map((item) => ({
+    date: item.date,
+    count: Number(item.count),
+  }));
 
-      responsesOverTime: [],
-    };
-  }),
+  return {
+    totalForms: forms.length,
+
+    totalResponses: Number(totalResponses[0]?.count ?? 0),
+
+    recentForms,
+
+    recentResponses,
+
+    responsesOverTime,
+  };
+}),
 
   publishForm: protectedProcedure
       .meta({
@@ -493,3 +539,4 @@ export const formRouter = router({
     };
   }),
 });
+
